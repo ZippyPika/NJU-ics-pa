@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/paddr.h>
 
 static int is_batch_mode = false;
 
@@ -58,7 +59,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args){
 	char *arg = strtok(NULL," ");
 	uint64_t n=1;
-	if(arg != NULL){
+	 if (arg != NULL){
 		n = atoll(arg);
 	}
 	cpu_exec(n);
@@ -69,9 +70,30 @@ static int cmd_info(char *args){
 	char *arg=strtok(NULL," ");
 	if(strcmp(arg,"r") == 0){
 		isa_reg_display();
-	}
+	 } 
 	return 0;
 }
+
+static int cmd_x(char *args){
+	char *arg=strtok(NULL," ");
+	char *expr=strtok(NULL," ");
+	int64_t n=1,address=0;
+	 if(arg==NULL||expr==NULL){
+		printf("No arguments\n");
+		return 0;
+	}
+	n=atoll(arg);
+	char *endptr;
+	address=strtol(expr,&endptr,0);
+	while(n--){
+		word_t ret=paddr_read(address,4);
+		printf(ANSI_FMT("0x%lx:" ,ANSI_FG_BLUE),address);
+		printf("0x%08x\n",ret);
+		address+=4;
+	}
+	return 0;	
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -83,6 +105,8 @@ static struct {
 	{ "si", "Single-Step execution", cmd_si},
 	{ "info", "List of info commands\n\n"
 						"info r List of all registers",cmd_info},
+	{ "x","scan memory\n"
+				"x N EXPR scan from EXPR and length N",cmd_x},
 
   /* TODO: Add more commands */
 
