@@ -64,6 +64,14 @@ static int cmd_si(char *args){
 	cpu_exec(n);
 	return 0;
 }
+
+static int cmd_info(char *args){
+	char *arg=strtok(NULL," ");
+	if(strcmp(arg,"r") == 0){
+		isa_reg_display();
+	}
+	return 0;
+}
 static struct {
   const char *name;
   const char *description;
@@ -73,6 +81,9 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
 	{ "si", "Single-Step execution", cmd_si},
+	{ "info", "List of info commands\n\n"
+						"info r List of all registers",cmd_info},
+
   /* TODO: Add more commands */
 
 };
