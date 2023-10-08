@@ -130,13 +130,83 @@ static bool make_token(char *e) {
   return true;
 }
 
+bool check_parentheses(int p,int q){
+	static int left_bracket=0,right_bracket=0;
+	static int f1=1,f2=1,i;//f1 true|flase f2 good|bad
+											 //0 true 1 false 2 bad expr
+	for(i=p;i<=q;i++){
+		switch (tokens[i].type){
+			case '(' :
+				left_bracket++;
+			case ')' :
+				right_bracket++;
+				if(left_bracket==right_bracket){
+					if(i!=q) f1=0;
+				}
+				if(right_bracket>left_bracket) f2=0;
+			}
+	}
 
+	if(left_bracket!=right_bracket) f2=0;
+
+	if(!f2){
+			printf("Wrong brackets\n");
+			assert(0);
+	}
+
+	if(tokens[p].type=='('&&tokens[q].type==')'&&f1)
+		return 1;
+	else
+		return 0;
+}
+static int find_mainop(int p,int q){
+	static int i=0,pri=1000,op=0;// 1 +- 2*/
+	for(i=p;i<=q;i++){
+			switch (tokens[i].type){
+				case '+': case '-':
+					pri=1;
+					op=i;
+				case '*': case '/':
+					if(pri>=2){
+						pri=2;
+						op=i;
+					}
+			}
+	}
+	return op;
+}
+uint32_t eval(int p,int q){
+	if(p>q){
+		assert(0);
+		return -1;
+	}
+	else if(p==q){
+		//number
+		return atoi(tokens[p].str);
+	}
+	else if(check_parentheses(p,q)){
+		return eval(p+1,q-1);
+	}
+	else{
+		static int op=0;
+		op=find_mainop(p,q);
+		uint32_t val1=eval(p,op-1),val2=eval(op+1,q);
+		switch(tokens[op].type){
+			case '+':return val1+val2;
+			case '-':return val1-val2;
+			case '*':return val1*val2;
+			case '/':return val1/val2;
+			default:assert(0);
+		}
+	}
+}
 word_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
+	if (!make_token(e)) {
     *success = false;
     return 0;
   }
-
+	
+	printf("%u\n",eval(0,nr_token-1));
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
 
