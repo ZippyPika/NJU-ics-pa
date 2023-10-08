@@ -131,8 +131,8 @@ static bool make_token(char *e) {
 }
 
 bool check_parentheses(int p,int q){
-	static int left_bracket=0,right_bracket=0;
-	static int f1=1,f2=1,i;//f1 true|flase f2 good|bad
+	int left_bracket=0,right_bracket=0;
+	int f1=1,f2=1,i;//f1 true|flase f2 good|bad
 											 //0 true 1 false 2 bad expr
 	for(i=p;i<=q;i++){
 		switch (tokens[i].type){
