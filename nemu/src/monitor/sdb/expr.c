@@ -206,7 +206,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 	
-	printf("%u\n",eval(0,nr_token-1));
+	//printf("%u\n",eval(0,nr_token-1));
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
 
