@@ -107,6 +107,7 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
 					case TK_NUM:
 						strncpy(tokens[nr_token].str,substr_start,substr_len);
+						tokens[nr_token].str[substr_len]='\0';
 						break;
           default: break;
         }
@@ -115,15 +116,16 @@ static bool make_token(char *e) {
       }
     }
 
-		for(i=0;i<nr_token;i++){
+	/*	for(i=0;i<nr_token;i++){
 			printf("%d %s\n",tokens[i].type,tokens[i].str);
-    }
+    }*/
 
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
   }
+  printf("sd\n");
 
   return true;
 }
