@@ -188,7 +188,7 @@ uint32_t eval(int p,int q){
 		return eval(p+1,q-1);
 	}
 	else{
-		static int op=0;
+		int op=0;
 		op=find_mainop(p,q);
 		uint32_t val1=eval(p,op-1),val2=eval(op+1,q);
 		printf("%u %u %c\n",val1,val2,tokens[op].type);
