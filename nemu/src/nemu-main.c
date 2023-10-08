@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
 	char *s=NULL;
 	printf("2121212\n");
 	int i=scanf("%s",s);
+	printf("%s\n",s);
 	printf("%d\n",i);
 
 	bool *f=0;
