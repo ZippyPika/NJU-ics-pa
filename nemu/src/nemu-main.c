@@ -14,7 +14,7 @@
 ***************************************************************************************/
 
 #include <common.h>
-#include <readline/readline.h>
+#include <stdio.h>
 #include "monitor/sdb/sdb.h"
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -31,9 +31,11 @@ int main(int argc, char *argv[]) {
 #endif
  /* Start engine. */
   engine_start();
-	char *s;
-	printf("2121212");
-	s=readline("test expr");
+	char *s="";
+	printf("2121212\n");
+	int i=scanf("%s",s);
+	printf("%d\n",i);
+
 	bool *f=0;
 	expr(s,f);
  
