@@ -14,11 +14,13 @@
 ***************************************************************************************/
 
 #include <common.h>
-
+#include <readline/readline.h>
+#include "monitor/sdb/sdb.h"
 void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
+
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
@@ -29,7 +31,11 @@ int main(int argc, char *argv[]) {
 #endif
  /* Start engine. */
   engine_start();
-
+	char *s;
+	printf("2121212");
+	s=readline("test expr");
+	bool *f=0;
+	expr(s,f);
  
   return is_exit_status_bad();
 }
