@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 #endif
  /* Start engine. */
   engine_start();
-	char *s="";
+	char *s=NULL;
 	printf("2121212\n");
 	int i=scanf("%s",s);
 	printf("%d\n",i);
