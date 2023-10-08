@@ -162,16 +162,16 @@ bool check_parentheses(int p,int q){
 static int find_mainop(int p,int q){
 	static int i=0,pri=1000,op=0;// 1 +- 2*/
 	for(i=p;i<=q;i++){
-			switch (tokens[i].type){
-				case '+': case '-':
-					pri=1;
+		switch (tokens[i].type){
+			case '+': case '-':
+				pri=1;
+				op=i;
+			case '*': case '/':
+				if(pri>=2){
+					pri=2;
 					op=i;
-				case '*': case '/':
-					if(pri>=2){
-						pri=2;
-						op=i;
-					}
-			}
+				}
+		}
 	}
 	return op;
 }
