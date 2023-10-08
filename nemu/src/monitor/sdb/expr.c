@@ -94,19 +94,23 @@ static bool make_token(char *e) {
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
-        
+        if(rules[i].token_type == TK_NOTYPE){
+					continue;
+				}
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-				nr_token++;
+//				nr_token++;
 				tokens[nr_token].type=rules[i].token_type;
-				strncpy(tokens[nr_token].str,substr_start,substr_len);
 
         switch (rules[i].token_type) {
-          default: TODO();
+					case TK_NUM:
+						strncpy(tokens[nr_token].str,substr_start,substr_len);
+						break;
+          default: break;
         }
-
+				++nr_token;
         break;
       }
     }
