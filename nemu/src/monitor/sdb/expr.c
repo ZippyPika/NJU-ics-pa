@@ -125,7 +125,7 @@ static bool make_token(char *e) {
       return false;
     }
   }
-  printf("sd\n");
+ // printf("sd\n");
 
   return true;
 }
@@ -206,6 +206,8 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 	
+
+	printf("start evaling\n");
 	//printf("%u\n",eval(0,nr_token-1));
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
