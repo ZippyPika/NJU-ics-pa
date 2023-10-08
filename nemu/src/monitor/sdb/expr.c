@@ -101,11 +101,7 @@ static bool make_token(char *e) {
          */
 				nr_token++;
 				tokens[nr_token].type=rules[i].token_type;
-				if(tokens[nr_token].type==TK_NUM){
-					for(i=0;i<substr_len;i++){
-						tokens[nr_token].str[i]=substr_start[i];
-					}
-				}
+				strncpy(tokens[nr_token].str,substr_start,substr_len);
 
         switch (rules[i].token_type) {
           default: TODO();
