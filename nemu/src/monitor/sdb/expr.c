@@ -160,7 +160,7 @@ bool check_parentheses(int p,int q){
 		return 0;
 }
 static int find_mainop(int p,int q){
-	static int i=0,pri=1000,op=0;// 1 +- 2*/
+	int i=0,pri=1000,op=0;// 1 +- 2*/
 	for(i=p;i<=q;i++){
 		switch (tokens[i].type){
 			case '+': case '-':
