@@ -132,26 +132,28 @@ static bool make_token(char *e) {
 
 bool check_parentheses(int p,int q){
 	int left_bracket=0,right_bracket=0;
-	int f1=1,f2=1,i;//f1 true|flase f2 good|bad
-											 //0 true 1 false 2 bad expr
+	int f1=1,f2=1,i=0;//f1 true|flase f2 good|bad
+					//0 true 1 false 2 bad expr
 	for(i=p;i<=q;i++){
 		switch (tokens[i].type){
 			case '(' :
 				left_bracket++;
+                break;
 			case ')' :
 				right_bracket++;
 				if(left_bracket==right_bracket){
 					if(i!=q) f1=0;
 				}
 				if(right_bracket>left_bracket) f2=0;
+                break;
 			}
 	}
 
 	if(left_bracket!=right_bracket) f2=0;
 
 	if(!f2){
-			printf("Wrong brackets\n");
-			assert(0);
+        printf("Wrong brackets\n");
+        assert(0);
 	}
 
 	if(tokens[p].type=='('&&tokens[q].type==')'&&f1)
@@ -191,7 +193,7 @@ uint32_t eval(int p,int q){
 		int op=0;
 		op=find_mainop(p,q);
 		uint32_t val1=eval(p,op-1),val2=eval(op+1,q);
-		printf("%u %u %c\n",val1,val2,tokens[op].type);
+		//printf("%u %u %c\n",val1,val2,tokens[op].type);
 		switch(tokens[op].type){
 			case '+':return val1+val2;
 			case '-':return val1-val2;
@@ -208,7 +210,7 @@ word_t expr(char *e, bool *success) {
   }
 	
 
-	printf("start evaling\n");
+//	printf("start evaling\n");
 	printf("%u\n",eval(0,nr_token-1));
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
