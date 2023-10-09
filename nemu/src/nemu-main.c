@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     /* Start engine. */
     //  engine_start();
     FILE *fp=freopen("input","r",stdin);
-    int n=1000;
+    int n=1;
     while(n--){
         uint32_t x=0;
         int t=scanf("%u",&x);
