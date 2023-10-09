@@ -171,15 +171,21 @@ static int find_mainop(int p,int q){
 			case '+': case '-':
 				pri=1;
 				op=i;
+                break;
 			case '*': case '/':
 				if(pri>=2){
 					pri=2;
 					op=i;
 				}
+                break;
             case '(' :
                 num++;
+                break;
             case ')' :
                 num--;
+                break;
+            default :
+                break;
 		}
 	}
 	return op;
