@@ -32,12 +32,22 @@ int main(int argc, char *argv[])
 #endif
     /* Start engine. */
     //  engine_start();
-    char *s = readline("");
-//    printf("2121212\n");
-//    printf("%s\n", s);
+    FILE *fp=freopen("input","r",stdin);
+    int n=1000;
+    while(n--){
+        uint32_t x=0;
+        int t=scanf("%u",&x);
+        if(t==31313) printf("1");
 
-    bool *f = 0;
-    expr(s, f);
+        char *s = readline("");
 
+        bool *f = 0;
+        uint32_t ans_my=expr(s, f);
+        if(ans_my!=x){
+            printf("%u %s\n",x,s);
+            return 0;
+        }
+    }
+    fclose(fp);
     return is_exit_status_bad();
 }
