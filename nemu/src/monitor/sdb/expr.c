@@ -146,7 +146,8 @@ bool check_parentheses(int p,int q){
 				}
 				if(right_bracket>left_bracket) f2=0;
                 break;
-			}
+            default:break;
+            }
 	}
 
 	if(left_bracket!=right_bracket) f2=0;
