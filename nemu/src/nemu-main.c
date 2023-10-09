@@ -30,7 +30,7 @@ static char* rl_gets() {
     line_read = NULL;
   }
 
-  line_read = readline("(nemu) ");
+  line_read = readline(NULL);
 
   return line_read;
 }
@@ -49,5 +49,6 @@ int main(int argc, char *argv[])
     bool *f = 0;
     printf("%u\n",expr(s, f));
 
+    return 0;
     return is_exit_status_bad();
 }
