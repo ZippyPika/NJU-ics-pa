@@ -164,7 +164,9 @@ bool check_parentheses(int p,int q){
 }
 static int find_mainop(int p,int q){
 	int i=0,pri=1000,op=0;// 1 +- 2*/
+    int num=0;
 	for(i=p;i<=q;i++){
+        if(num!=0) continue;
 		switch (tokens[i].type){
 			case '+': case '-':
 				pri=1;
@@ -174,6 +176,10 @@ static int find_mainop(int p,int q){
 					pri=2;
 					op=i;
 				}
+            case '(' :
+                num++;
+            case ')' :
+                num--;
 		}
 	}
 	return op;
