@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
 #endif
     /* Start engine. */
     //  engine_start();
-    FILE *fp=freopen("input","r",stdin);
-    int n=1;
+    //FILE *fp=freopen("input","r",stdin);
+    int n=100;
     while(n--){
         uint32_t x=0;
         int t=scanf("%u",&x);
@@ -48,6 +48,6 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
-    fclose(fp);
+    //fclose(fp);
     return is_exit_status_bad();
 }
