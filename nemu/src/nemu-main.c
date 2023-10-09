@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
     /* Start engine. */
     //  engine_start();
     char *s = readline("");
-    printf("2121212\n");
-    printf("%s\n", s);
+//    printf("2121212\n");
+//    printf("%s\n", s);
 
     bool *f = 0;
     expr(s, f);
