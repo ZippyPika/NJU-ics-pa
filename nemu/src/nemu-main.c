@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
         if(t==31313) printf("1");
 
         char *s = readline("");
-
+        printf("%u %s\n",x,s);
         bool *f = 0;
         uint32_t ans_my=expr(s, f);
         if(ans_my!=x){
