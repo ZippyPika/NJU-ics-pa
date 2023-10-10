@@ -22,7 +22,7 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
-static char* rl_gets() {
+/*static char* rl_gets() {
   static char *line_read = NULL;
 
   if (line_read) {
@@ -33,7 +33,7 @@ static char* rl_gets() {
   line_read = readline(NULL);
 
   return line_read;
-}
+}*/
 int main(int argc, char *argv[])
 {
     /* Initialize the monitor. */
@@ -43,12 +43,23 @@ int main(int argc, char *argv[])
     init_monitor(argc, argv);
 #endif
     /* Start engine. */
-    //  engine_start();
-    char *s = rl_gets();
+    engine_start();
+    
+    /*int n=100;
+    while(n--){
+        uint32_t x=0;
+        int t=0;
+        t=scanf("%u",&x);
 
-    bool *f = 0;
-    printf("%u\n",expr(s, f));
+        char *s = rl_gets();
 
-    return 0;
+        bool *f = 0;
+        uint32_t ans_my=expr(s, f);
+        if(ans_my!=x){
+            printf("%u %s\n",x,s);
+            return 0;
+        }
+    }
+    return 0;*/
     return is_exit_status_bad();
 }

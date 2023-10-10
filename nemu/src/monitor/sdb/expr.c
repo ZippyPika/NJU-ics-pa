@@ -24,7 +24,7 @@ enum {
     TK_NOTYPE = 256,
     TK_EQ,
     TK_NUM,
-
+    TK_HEX,
     /* TODO: Add more token types */
 
 };
@@ -47,6 +47,8 @@ static struct rule {
     {"\\(", '('},
     {"\\)", ')'},
     {"[0-9]+", TK_NUM},
+    {"0[xX][0-9|A-F|a-f]",TK_HEX},
+    {"$"}
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -177,11 +179,12 @@ static int find_mainop(int p, int q)
     int i = 0, pri = 1000, op = 0; // 1 +- 2*/
     int num = 0;
     for (i = p; i <= q; i++) {
-        if(tokens[i].type=='(')
+        if (tokens[i].type == '(')
             num++;
-        if(tokens[i].type==')')
+        if (tokens[i].type == ')')
             num--;
-        if(num!=0) continue;
+        if (num != 0)
+            continue;
         switch (tokens[i].type) {
         case '+':
         case '-':
@@ -239,7 +242,7 @@ word_t expr(char *e, bool *success)
 
     //	printf("start evaling\n");
     return eval(0, nr_token - 1);
-    //printf("%u\n", eval(0, nr_token - 1));
+    // printf("%u\n", eval(0, nr_token - 1));
     /* TODO: Insert codes to evaluate the expression. */
     // TODO();
 
