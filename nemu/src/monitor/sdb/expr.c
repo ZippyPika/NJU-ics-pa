@@ -19,12 +19,17 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-
+#include <memory/paddr.h>
 enum {
     TK_NOTYPE = 256,
     TK_EQ,
     TK_NUM,
     TK_HEX,
+    TK_REG,
+    TK_NEQ,
+    TK_AND,
+    TK_NEG,
+    TK_DEREF,
     /* TODO: Add more token types */
 
 };
@@ -47,8 +52,10 @@ static struct rule {
     {"\\(", '('},
     {"\\)", ')'},
     {"[0-9]+", TK_NUM},
-    {"0[xX][0-9|A-F|a-f]",TK_HEX},
-    {"$"}
+    {"0[xX][0-9|A-F|a-f]+", TK_HEX},
+    {"\\$[0-9|a-z|A-Z]+", TK_REG},
+    {"!=", TK_NEQ},
+    {"&&", TK_AND},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -174,9 +181,38 @@ bool check_parentheses(int p, int q)
     else
         return 0;
 }
+static bool is_operator(int type)
+{
+    switch (type) {
+    case TK_HEX:
+    case TK_NUM:
+    case TK_REG:
+        return 0;
+        break;
+    default:
+        return 1;
+        break;
+    }
+}
+static bool is_unary_op(int type)
+{
+    switch (type) {
+    case TK_DEREF:
+    case TK_NEG:
+        return 1;
+        break;
+    default:
+        return 0;
+        break;
+    }
+}
+// int update_op(int i,int op)
+// {
+
+// }
 static int find_mainop(int p, int q)
 {
-    int i = 0, pri = 1000, op = 0; // 1 +- 2*/
+    int i = 0, pri = 1000, op = 0; // 1 && 2 == != 3 +- 4 */ 5 NEG DEREF
     int num = 0;
     for (i = p; i <= q; i++) {
         if (tokens[i].type == '(')
@@ -186,20 +222,38 @@ static int find_mainop(int p, int q)
         if (num != 0)
             continue;
         switch (tokens[i].type) {
-        case '+':
-        case '-':
+        case TK_AND:
             pri = 1;
             op = i;
             break;
-        case '*':
-        case '/':
+        case TK_EQ:
+        case TK_NEQ:
             if (pri >= 2) {
                 pri = 2;
                 op = i;
             }
             break;
-        default:
+        case '+':
+        case '-':
+            if (pri >= 3) {
+                pri = 3;
+                op = i;
+            }
             break;
+        case '*':
+        case '/':
+            if (pri >= 4) {
+                pri = 4;
+                op = i;
+            }
+            break;
+        case TK_NEG:
+        case TK_DEREF:
+            if (pri >= 5) {
+                pri = 5;
+                if (op == 0)
+                    op = i;
+            }
         }
     }
     return op;
@@ -211,28 +265,66 @@ uint32_t eval(int p, int q)
         return -1;
     } else if (p == q) {
         // number
-        return atoi(tokens[p].str);
-    } else if (check_parentheses(p, q)) {
-        return eval(p + 1, q - 1);
-    } else {
-        int op = 0;
-        op = find_mainop(p, q);
-        uint32_t val1 = eval(p, op - 1), val2 = eval(op + 1, q);
-        // printf("%u %u %c\n",val1,val2,tokens[op].type);
-        switch (tokens[op].type) {
-        case '+':
-            return val1 + val2;
-        case '-':
-            return val1 - val2;
-        case '*':
-            return val1 * val2;
-        case '/':
-            return val1 / val2;
+        switch (tokens[p].type) {
+        case TK_NUM:
+            return atoi(tokens[p].str);
+            break;
+        case TK_HEX:
+            uint32_t x = 0;
+            int t = 0;
+            t = sscanf(tokens[p].str, "%x", &x);
+            if (t == -1)
+                assert(0);
+            return x;
         default:
             assert(0);
         }
+    } else if (check_parentheses(p, q)) {
+        return eval(p + 1, q - 1);
+    } else {
+
+        int op = 0;
+        op = find_mainop(p, q);
+        if (is_unary_op(tokens[op].type)) {
+            if (op != p) {
+                printf("Unary error");
+                assert(0);
+            }
+            uint32_t val = eval(op + 1, q);
+            switch (tokens[op].type) {
+            case TK_DEREF:
+                return paddr_read(val, 4);
+                break;
+            case TK_NEG:
+                return -val;
+            default:
+                assert(0);
+            }
+        } else {
+            uint32_t val1 = eval(p, op - 1), val2 = eval(op + 1, q);
+            // printf("%u %u %c\n",val1,val2,tokens[op].type);
+            switch (tokens[op].type) {
+            case TK_AND:
+                return val1 && val2;
+            case TK_NEG:
+                return val1 != val2;
+            case TK_EQ:
+                return val1 == val2;
+            case '+':
+                return val1 + val2;
+            case '-':
+                return val1 - val2;
+            case '*':
+                return val1 * val2;
+            case '/':
+                return val1 / val2;
+            default:
+                assert(0);
+            }
+        }
     }
 }
+
 word_t expr(char *e, bool *success)
 {
     if (!make_token(e)) {
@@ -240,7 +332,20 @@ word_t expr(char *e, bool *success)
         return 0;
     }
 
-    //	printf("start evaling\n");
+    //	printf("start evaluating\n");
+    int i;
+    for (i = 0; i < nr_token; i++) {
+        if (tokens[i].type == '*' && ((i == 0 || is_operator(tokens[i - 1].type)))) {
+            tokens[i].type = TK_DEREF;
+        }
+    }
+
+    for (i = 0; i < nr_token; i++) {
+        if (tokens[i].type == '-' && ((i == 0 || is_operator(tokens[i - 1].type)))) {
+            tokens[i].type = TK_NEG;
+        }
+    }
+
     return eval(0, nr_token - 1);
     // printf("%u\n", eval(0, nr_token - 1));
     /* TODO: Insert codes to evaluate the expression. */

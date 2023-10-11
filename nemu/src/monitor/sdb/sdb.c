@@ -108,7 +108,7 @@ static struct {
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
     {"si", "Single-Step execution", cmd_si},
-    {"info", "List of info commands\n\n"
+    {"info", "List of info commands\n"
              "info r List of all registers",
      cmd_info},
     {"x", "scan memory\n"
