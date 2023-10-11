@@ -212,7 +212,7 @@ static bool is_unary_op(int type)
 // }
 static int find_mainop(int p, int q)
 {
-    int i = 0, pri = 1000, op = 0; // 1 && 2 == != 3 +- 4 */ 5 NEG DEREF
+    int i = 0, pri = 1000, op = -1; // 1 && 2 == != 3 +- 4 */ 5 NEG DEREF
     int num = 0;
     for (i = p; i <= q; i++) {
         if (tokens[i].type == '(')
@@ -251,7 +251,7 @@ static int find_mainop(int p, int q)
         case TK_DEREF:
             if (pri >= 5) {
                 pri = 5;
-                if (op == 0)
+                if (op == -1)
                     op = i;
             }
         }
