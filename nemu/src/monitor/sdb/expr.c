@@ -195,6 +195,7 @@ static bool is_operator(int type)
     case TK_HEX:
     case TK_NUM:
     case TK_REG:
+    case ')':
         return 0;
         break;
     default:
