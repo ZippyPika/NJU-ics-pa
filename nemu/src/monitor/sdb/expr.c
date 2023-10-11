@@ -287,7 +287,7 @@ uint32_t eval(int p, int q)
         op = find_mainop(p, q);
         if (is_unary_op(tokens[op].type)) {
             if (op != p) {
-                printf("Unary error");
+                printf("Unary error\n");
                 assert(0);
             }
             uint32_t val = eval(op + 1, q);
