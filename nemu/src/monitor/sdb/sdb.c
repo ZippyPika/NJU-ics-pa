@@ -81,15 +81,17 @@ static int cmd_info(char *args)
 static int cmd_x(char *args)
 {
     char *arg = strtok(NULL, " ");
-    char *expr = strtok(NULL, " ");
+    char *expr1 = strtok(NULL, " ");
     int64_t n = 1, address = 0;
-    if (arg == NULL || expr == NULL) {
+    if (arg == NULL || expr1 == NULL) {
         printf("No arguments\n");
         return 0;
     }
     n = atoll(arg);
-    char *endptr;
-    address = strtol(expr, &endptr, 0);
+    // char *endptr;
+    // address = strtol(expr, &endptr, 0);
+    bool f=0;
+    address=expr(expr1,&f);
     while (n--) {
         word_t ret = paddr_read(address, 4);
         printf(ANSI_FMT("0x%lx:", ANSI_FG_BLUE), address);
