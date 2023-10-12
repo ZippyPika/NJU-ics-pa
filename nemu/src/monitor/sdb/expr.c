@@ -18,8 +18,8 @@
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
-#include <regex.h>
 #include <memory/paddr.h>
+#include <regex.h>
 enum {
     TK_NOTYPE = 256,
     TK_EQ,
@@ -278,13 +278,28 @@ uint32_t eval(int p, int q)
         case TK_NUM:
             return atoi(tokens[p].str);
             break;
-        case TK_HEX:
+        case TK_HEX:{
             uint32_t x = 0;
             int t = 0;
             t = sscanf(tokens[p].str, "%x", &x);
             if (t == -1)
                 assert(0);
             return x;
+        }
+            
+        //    break;
+        case TK_REG:{
+            bool *f = 0;
+            uint32_t x = 0;
+            x = isa_reg_str2val(tokens[p].str, f);
+            if (!(*f)) {
+                printf("Access register ERROR\n");
+                assert(0);
+            }
+            return x;            
+        }
+
+        //    break;
         default:
             assert(0);
         }
