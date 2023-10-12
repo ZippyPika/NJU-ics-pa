@@ -289,10 +289,10 @@ uint32_t eval(int p, int q)
             
         //    break;
         case TK_REG:{
-            bool *f = 0;
+            bool f = 0;
             uint32_t x = 0;
-            x = isa_reg_str2val(tokens[p].str, f);
-            if (!(*f)) {
+            x = isa_reg_str2val(tokens[p].str, &f);
+            if (!f) {
                 printf("Access register ERROR\n");
                 assert(0);
             }
