@@ -90,8 +90,8 @@ static int cmd_x(char *args)
     n = atoll(arg);
     // char *endptr;
     // address = strtol(expr, &endptr, 0);
-    bool f=0;
-    address=expr(expr1,&f);
+    bool f = 0;
+    address = expr(expr1, &f);
     while (n--) {
         word_t ret = paddr_read(address, 4);
         printf(ANSI_FMT("0x%lx:", ANSI_FG_BLUE), address);
@@ -100,7 +100,13 @@ static int cmd_x(char *args)
     }
     return 0;
 }
-
+static int cmd_p(char *args)
+{
+    bool f=0;
+    uint32_t x=expr(args,&f);
+    printf("%u\n",x);
+    return 0;
+}
 static struct {
     const char *name;
     const char *description;
@@ -116,7 +122,7 @@ static struct {
     {"x", "scan memory\n"
           "x N EXPR scan from EXPR and length N",
      cmd_x},
-
+    {"p", "calculate expression", cmd_p},
     /* TODO: Add more commands */
 
 };
