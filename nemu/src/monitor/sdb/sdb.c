@@ -107,6 +107,11 @@ static int cmd_p(char *args)
     printf("%u\n",x);
     return 0;
 }
+static int cmd_w(char *args)
+{
+    strcpy(new_wp()->expr,args);
+    return 0;
+}
 static struct {
     const char *name;
     const char *description;
@@ -120,9 +125,10 @@ static struct {
              "info r List of all registers",
      cmd_info},
     {"x", "scan memory\n"
-          "x N EXPR scan from EXPR and length N",
+          "x N EXPR:scan from EXPR and length N",
      cmd_x},
-    {"p", "calculate expression", cmd_p},
+    {"p", "p EXPR:calculate expression", cmd_p},
+    {"w","w EXPR:watchpoint",cmd_w},
     /* TODO: Add more commands */
 
 };
