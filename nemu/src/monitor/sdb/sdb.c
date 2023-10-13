@@ -114,6 +114,11 @@ static int cmd_w(char *args)
 {
     WP *p=new_wp();
     strcpy(p->expr,args);
+    bool f=0;
+    p->expr_value=expr(p->expr,&f);
+    if(!f){
+        printf("expression error\n");
+    }
     return 0;
 }
 static struct {
