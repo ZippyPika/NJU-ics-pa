@@ -278,7 +278,7 @@ uint32_t eval(int p, int q)
         case TK_NUM:
             return atoi(tokens[p].str);
             break;
-        case TK_HEX:{
+        case TK_HEX: {
             uint32_t x = 0;
             int t = 0;
             t = sscanf(tokens[p].str, "%x", &x);
@@ -286,9 +286,9 @@ uint32_t eval(int p, int q)
                 assert(0);
             return x;
         }
-            
+
         //    break;
-        case TK_REG:{
+        case TK_REG: {
             bool f = 0;
             uint32_t x = 0;
             x = isa_reg_str2val(tokens[p].str, &f);
@@ -296,7 +296,7 @@ uint32_t eval(int p, int q)
                 printf("Access register ERROR\n");
                 assert(0);
             }
-            return x;            
+            return x;
         }
 
         //    break;
@@ -374,6 +374,6 @@ word_t expr(char *e, bool *success)
     // printf("%u\n", eval(0, nr_token - 1));
     /* TODO: Insert codes to evaluate the expression. */
     // TODO();
-
-    return 1;
+    *success = 1;
+    return 0;
 }
