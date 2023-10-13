@@ -112,7 +112,8 @@ static int cmd_p(char *args)
 }
 static int cmd_w(char *args)
 {
-    strcpy(new_wp()->expr,args);
+    WP *p=new_wp();
+    strcpy(p->expr,args);
     return 0;
 }
 static struct {
