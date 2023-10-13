@@ -63,19 +63,39 @@ void free_wp(WP *wp)
     return;
 }
 /* TODO: Implement the functionality of watchpoint */
-// void scan_watchpoint()
-// {
-//     WP *p=head;
-//     while(p->next!=NULL){
-//         bool f=0;
-//         uint32_t x=eval(p->expr,&f);
-//         if(!f){
-//             printf("Watch Point:%d , evalating ERROR\n",p->NO);
-//             continue;
-//         }
-//         if(x!=p->expr_value){
-//             p->expr_value=x;
-//             printf
-//         }
-//     }
-// }
+bool scan_watchpoint()
+{
+    WP *p = head;
+    if (p == NULL) {
+        printf("NO using watchpoint\n");
+        return 0;
+    }
+    bool f = 0;
+    while (p->next != NULL) {
+        bool f1 = 0;
+        uint32_t x = expr(p->expr, &f1);
+        if (!f1) {
+            printf("Watch Point:%d , evalating ERROR\n", p->NO);
+            continue;
+            f = 1;
+        }
+        if (x != p->expr_value) {
+            printf("Watch Point %d : %s\n", p->NO, p->expr);
+            printf("Old value=%u\n", p->expr_value);
+            printf("New value=%u\n", x);
+            p->expr_value = x;
+            f = 1;
+        }
+    }
+    return f;
+}
+
+void watchpoint_display()
+{
+    WP *p = head;
+    while (p != NULL) {
+        printf("Num:%2d  Expression:%20s   Value:%10u\n", p->NO, p->expr, p->expr_value);
+        p = p->next;
+    }
+    return;
+}

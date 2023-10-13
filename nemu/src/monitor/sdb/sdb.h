@@ -32,4 +32,8 @@ void free_wp(WP *wp);
 
 WP *new_wp();
 
+bool scan_watchpoint();
+
+void watchpoint_display();
+
 #endif
