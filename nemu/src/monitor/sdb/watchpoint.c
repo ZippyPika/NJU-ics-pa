@@ -25,8 +25,9 @@ void init_wp_pool()
     int i;
     for (i = 0; i < NR_WP; i++) {
         wp_pool[i].NO = i;
-        wp_pool[i].expr=NULL;
+        wp_pool[i].expr = NULL;
         wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
+        wp_pool[i].expr_value = -1;
     }
 
     head = NULL;
@@ -43,7 +44,7 @@ WP *new_wp()
     free_ = free_->next;
     p->next = head;
     head = p;
-    //printf("%d\n", p->NO);
+    // printf("%d\n", p->NO);
     return p;
 }
 void free_wp(WP *wp)
@@ -62,3 +63,19 @@ void free_wp(WP *wp)
     return;
 }
 /* TODO: Implement the functionality of watchpoint */
+// void scan_watchpoint()
+// {
+//     WP *p=head;
+//     while(p->next!=NULL){
+//         bool f=0;
+//         uint32_t x=eval(p->expr,&f);
+//         if(!f){
+//             printf("Watch Point:%d , evalating ERROR\n",p->NO);
+//             continue;
+//         }
+//         if(x!=p->expr_value){
+//             p->expr_value=x;
+//             printf
+//         }
+//     }
+// }
