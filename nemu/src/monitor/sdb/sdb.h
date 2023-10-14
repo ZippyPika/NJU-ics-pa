@@ -37,4 +37,5 @@ bool scan_watchpoint();
 void watchpoint_display();
 
 void free_wp_num(int no);
+
 #endif

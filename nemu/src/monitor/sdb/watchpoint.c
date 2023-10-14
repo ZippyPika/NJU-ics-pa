@@ -38,7 +38,7 @@ WP *new_wp()
 {
     if (free_ == NULL) {
         printf("NO free watchpoint\n");
-        assert(0);
+        //assert(0);
     }
     WP *p = free_;
     free_ = free_->next;
