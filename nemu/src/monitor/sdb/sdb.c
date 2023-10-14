@@ -112,15 +112,18 @@ static int cmd_p(char *args)
 }
 static int cmd_w(char *args)
 {
+    return 0;
+    if(args==NULL){
+        printf("No arguments\n");
+        return 0;
+    }
     WP *p=new_wp();
     if(p==NULL){
         printf("NO free watchpoint\n");
         return 0;
     }
-    if(args==NULL){
-        printf("No arguments\n");
-        return 0;
-    }
+    
+
     strcpy(p->expr,args);
     bool f=0;
     p->expr_value=expr(p->expr,&f);
@@ -131,6 +134,7 @@ static int cmd_w(char *args)
 }
 static int cmd_d(char *args)
 {
+    return 0;
     char *arg = strtok(NULL, " ");
     if (arg == NULL) {
         printf("No arguments\n");
