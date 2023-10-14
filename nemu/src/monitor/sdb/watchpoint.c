@@ -97,9 +97,9 @@ void watchpoint_display()
         printf("NO using watchpoint\n");
         return;
     }
-    printf("Num:  Expression:                 Value:\n");
+    printf("Num  Expression                 Value\n");
     while (p != NULL) {
-        printf("%3d%20s%10u\n", p->NO, p->expr, p->expr_value);
+        printf("%-3d%-30s%-10u\n", p->NO, p->expr, p->expr_value);
         p = p->next;
     }
     return;
