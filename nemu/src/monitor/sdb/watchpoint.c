@@ -86,6 +86,7 @@ bool scan_watchpoint()
             p->expr_value = x;
             f = 1;
         }
+        p = p->next;
     }
     return f;
 }
