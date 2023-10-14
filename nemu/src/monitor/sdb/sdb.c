@@ -112,7 +112,7 @@ static int cmd_p(char *args)
 }
 static int cmd_w(char *args)
 {
-    return 0;
+    //return 0;
     if(args==NULL){
         printf("No arguments\n");
         return 0;
