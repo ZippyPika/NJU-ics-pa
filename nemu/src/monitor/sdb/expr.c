@@ -34,7 +34,7 @@ enum {
 
 };
 
-static struct rule {
+static struct rule {   
     const char *regex;
     int token_type;
 } rules[] = {
