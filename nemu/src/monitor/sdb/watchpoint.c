@@ -99,7 +99,7 @@ void watchpoint_display()
     }
     printf("Num  Expression                 Value\n");
     while (p != NULL) {
-        printf("%-4d%-30s%-10u\n", p->NO, p->expr, p->expr_value);
+        printf("%-5d%-30s%-10u\n", p->NO, p->expr, p->expr_value);
         p = p->next;
     }
     return;
