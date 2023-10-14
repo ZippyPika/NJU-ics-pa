@@ -28,6 +28,7 @@ void isa_reg_display() {
     for(i=0;i<32;++i){
         printf("%-10s0x%-20x%-20u",regs[i],cpu.gpr[i],cpu.gpr[i]);
     }
+    return;
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
@@ -40,7 +41,7 @@ word_t isa_reg_str2val(const char *s, bool *success) {
             }
         }
         else
-            if(strcmp(s+1,regs[i])==0){
+            if(strcmp(s,regs[i])==0){
                 return cpu.gpr[i];
             }
     }
