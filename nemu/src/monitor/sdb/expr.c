@@ -294,8 +294,7 @@ uint32_t eval(int p, int q)
             x = isa_reg_str2val(tokens[p].str, &f);
             if (!f) {
                 printf("Access register ERROR\n");
-                assert(0);
-                return 0;//bugs to be fixed
+                assert(0);//bugs to be fixed
             }
             return x;
         }
