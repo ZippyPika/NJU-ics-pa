@@ -71,7 +71,7 @@ bool scan_watchpoint()
         return 0;
     }
     bool f = 0;
-    while (p->next != NULL) {
+    while (p != NULL) {
         bool f1 = 0;
         uint32_t x = expr(p->expr, &f1);
         if (!f1) {
