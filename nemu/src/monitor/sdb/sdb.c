@@ -121,6 +121,17 @@ static int cmd_w(char *args)
     }
     return 0;
 }
+static int cmd_d(char *args)
+{
+    char *arg = strtok(NULL, " ");
+    if (arg == NULL) {
+        printf("No arguments\n");
+        return 0;
+    }
+    int n = atoi(arg);
+    free_wp_num(n);
+    return 0;
+}
 static struct {
     const char *name;
     const char *description;
@@ -138,6 +149,7 @@ static struct {
      cmd_x},
     {"p", "p EXPR:calculate expression", cmd_p},
     {"w","w EXPR:watchpoint",cmd_w},
+    {"d","d N:delete watchpoint N",cmd_d},
     /* TODO: Add more commands */
 
 };

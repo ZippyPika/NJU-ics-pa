@@ -25,7 +25,7 @@ void init_wp_pool()
     int i;
     for (i = 0; i < NR_WP; i++) {
         wp_pool[i].NO = i;
-        //wp_pool[i].expr = NULL;
+        // wp_pool[i].expr = NULL;
         wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
         wp_pool[i].expr_value = -1;
     }
@@ -102,5 +102,18 @@ void watchpoint_display()
         printf("%-5d%-30s%-10u\n", p->NO, p->expr, p->expr_value);
         p = p->next;
     }
+    return;
+}
+void free_wp_num(int no)
+{
+    WP *p = head;
+    while (p != NULL) {
+        if (p->NO == no) {
+            free_wp(p);
+            return;
+        }
+        p = p->next;
+    }
+    printf("NO such watchpoint\n");
     return;
 }
