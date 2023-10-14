@@ -294,14 +294,17 @@ uint32_t eval(int p, int q)
             x = isa_reg_str2val(tokens[p].str, &f);
             if (!f) {
                 printf("Access register ERROR\n");
-                assert(0);
+                return 0;//bugs to be fixed
+                //assert(0);
             }
             return x;
         }
 
         //    break;
         default:
-            assert(0);
+            printf("Unknown number type\n");
+            return 0;
+            //assert(0);
         }
     } else if (check_parentheses(p, q)) {
         return eval(p + 1, q - 1);
