@@ -93,8 +93,13 @@ bool scan_watchpoint()
 void watchpoint_display()
 {
     WP *p = head;
+    if (p == NULL) {
+        printf("NO using watchpoint\n");
+        return;
+    }
+    printf("Num:  Expression:                 Value:\n");
     while (p != NULL) {
-        printf("Num:%2d  Expression:%20s   Value:%10u\n", p->NO, p->expr, p->expr_value);
+        printf("%3d%20s%10u\n", p->NO, p->expr, p->expr_value);
         p = p->next;
     }
     return;
