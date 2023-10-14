@@ -74,8 +74,7 @@ static int cmd_info(char *args)
     char *arg = strtok(NULL, " ");
     if (strcmp(arg, "r") == 0) {
         isa_reg_display();
-    }
-    else if(strcmp(arg,"w")==0){
+    } else if (strcmp(arg, "w") == 0) {
         watchpoint_display();
     }
     return 0;
@@ -105,29 +104,28 @@ static int cmd_x(char *args)
 }
 static int cmd_p(char *args)
 {
-    bool f=0;
-    uint32_t x=expr(args,&f);
-    printf("%u\n",x);
+    bool f = 0;
+    uint32_t x = expr(args, &f);
+    printf("%u\n", x);
     return 0;
 }
 static int cmd_w(char *args)
 {
-    //return 0;
-    if(args==NULL){
+    // return 0;
+    if (args == NULL) {
         printf("No arguments\n");
         return 0;
     }
-    WP *p=new_wp();
-    if(p==NULL){
+    WP *p = new_wp();
+    if (p == NULL) {
         printf("NO free watchpoint\n");
         return 0;
     }
-    
 
-    strcpy(p->expr,args);
-    bool f=0;
-    p->expr_value=expr(p->expr,&f);
-    if(!f){
+    strcpy(p->expr, args);
+    bool f = 0;
+    p->expr_value = expr(p->expr, &f);
+    if (!f) {
         printf("watchpoint expression error\n");
     }
     return 0;
@@ -159,8 +157,8 @@ static struct {
           "x N EXPR:scan from EXPR and length N",
      cmd_x},
     {"p", "p EXPR:calculate expression", cmd_p},
-    {"w","w EXPR:watchpoint",cmd_w},
-    {"d","d N:delete watchpoint N",cmd_d},
+    {"w", "w EXPR:watchpoint", cmd_w},
+    {"d", "d N:delete watchpoint N", cmd_d},
     /* TODO: Add more commands */
 
 };
