@@ -67,7 +67,7 @@ bool scan_watchpoint()
 {
     WP *p = head;
     if (p == NULL) {
-        printf("NO using watchpoint\n");
+        //printf("NO using watchpoint\n");
         return 0;
     }
     bool f = 0;
