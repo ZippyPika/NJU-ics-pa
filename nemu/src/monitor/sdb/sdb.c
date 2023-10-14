@@ -134,7 +134,6 @@ static int cmd_w(char *args)
 }
 static int cmd_d(char *args)
 {
-    return 0;
     char *arg = strtok(NULL, " ");
     if (arg == NULL) {
         printf("No arguments\n");
