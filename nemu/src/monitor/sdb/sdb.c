@@ -128,7 +128,7 @@ static int cmd_w(char *args)
     bool f=0;
     p->expr_value=expr(p->expr,&f);
     if(!f){
-        printf("expression error\n");
+        printf("watchpoint expression error\n");
     }
     return 0;
 }
