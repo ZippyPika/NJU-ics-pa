@@ -73,7 +73,7 @@ static int cmd_info(char *args)
 {
     char *arg = strtok(NULL, " ");
     if(arg==NULL){
-        printf("No arguments\n");
+        printf("Lack of arguments\n");
         return 0;
     }
     if (strcmp(arg, "r") == 0) {
