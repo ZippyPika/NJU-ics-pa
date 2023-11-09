@@ -48,7 +48,7 @@ $(OBJ_DIR)/%.o: %.cc
 .PHONY: app clean
 
 app: $(BINARY)
-$(info $(BINARY))
+# $(info $(BINARY))
 
 $(BINARY):: $(OBJS) $(ARCHIVES)
 	@echo + LD $@
