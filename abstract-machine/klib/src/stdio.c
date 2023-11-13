@@ -2,7 +2,6 @@
 #include <klib-macros.h>
 #include <klib.h>
 #include <stdarg.h>
-#include <stdlib.h>
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
