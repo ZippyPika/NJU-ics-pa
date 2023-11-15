@@ -146,7 +146,7 @@ void cpu_exec(uint64_t n)
 {
     iringbuf_index = 0;
     for(int i=0;i<IRINGBUF_SIZE;i++){
-        memset(iringbuf[i],0,IRINGBUF_OFFSET);
+        memset(iringbuf[i],' ',IRINGBUF_OFFSET);
         iringbuf[i][IRINGBUF_OFFSET]='\0';
     }
 
