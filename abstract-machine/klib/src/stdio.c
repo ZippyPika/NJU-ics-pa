@@ -80,7 +80,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
                     *out=ch;
                     out++;
                     i++;
-                    break;
+                    break;  
                 }
                 default:{
                     *out=fmt[i];
