@@ -29,9 +29,31 @@ CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
-
+#define IRINGBUF_SIZE 16
+#define IRINGBUF_OFFSET 3
+static char iringbuf[IRINGBUF_SIZE][128+IRINGBUF_OFFSET];
+static size_t iringbuf_index = 0;
 void device_update();
 
+static void print_iringbuf(){
+    char pre[IRINGBUF_OFFSET]="-->";
+
+    for(int i=0;i<IRINGBUF_SIZE;i++){
+        if(iringbuf[i][IRINGBUF_OFFSET]=='\0'){
+            break;
+        }
+        if((i+1)%IRINGBUF_SIZE==iringbuf_index){
+            strncpy(iringbuf[i],pre,IRINGBUF_OFFSET);
+        }
+#ifdef CONFIG_ITRACE_COND    
+        if (ITRACE_COND) {
+            log_write("%s\n", iringbuf[i]);
+        }
+#endif    
+        printf("%s\n",iringbuf[i]);
+    }
+    return ;
+}
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc)
 {
 #ifdef CONFIG_ITRACE_COND
@@ -78,7 +100,10 @@ static void exec_once(Decode *s, vaddr_t pc)
 #ifndef CONFIG_ISA_loongarch32r
     void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
     disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
-                  MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+                MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+
+    strcpy(iringbuf[iringbuf_index]+IRINGBUF_OFFSET, s->logbuf);
+    iringbuf_index=(iringbuf_index+1)%IRINGBUF_SIZE;
 #else
     p[0] = '\0'; // the upstream llvm does not support loongarch32r
 #endif
@@ -119,6 +144,12 @@ void assert_fail_msg()
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n)
 {
+    iringbuf_index = 0;
+    for(int i=0;i<IRINGBUF_SIZE;i++){
+        memset(iringbuf[i],0,IRINGBUF_OFFSET);
+        iringbuf[i][IRINGBUF_OFFSET]='\0';
+    }
+
     g_print_step = (n < MAX_INST_TO_PRINT);
     switch (nemu_state.state) {
     case NEMU_END:
@@ -143,6 +174,7 @@ void cpu_exec(uint64_t n)
 
     case NEMU_END:
     case NEMU_ABORT:
+        print_iringbuf();
         Log("nemu: %s at pc = " FMT_WORD,
             (nemu_state.state == NEMU_ABORT ? ANSI_FMT("ABORT", ANSI_FG_RED) : (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) : ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
             nemu_state.halt_pc);
