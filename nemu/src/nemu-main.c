@@ -46,25 +46,5 @@ int main(int argc, char *argv[])
     /* Start engine. */
     engine_start();
 
-/*    char *s = rl_gets();
-    bool *f = NULL;
-    printf("%u\n", expr(s, f));
-    return 0;
-    int n=100;
-    while(n--){
-        uint32_t x=0;
-        int t=0;
-        t=scanf("%u",&x);
-
-        char *s = rl_gets();
-
-        bool *f = 0;
-        uint32_t ans_my=expr(s, f);
-        if(ans_my!=x){
-            printf("%u %s\n",x,s);
-            return 0;
-        }
-    }
-    return 0;*/
     return is_exit_status_bad();
 }
