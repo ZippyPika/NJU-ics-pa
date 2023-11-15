@@ -22,19 +22,6 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
-// static char *rl_gets()
-// {
-//     static char *line_read = NULL;
-
-//     if (line_read) {
-//         free(line_read);
-//         line_read = NULL;
-//     }
-
-//     line_read = readline(NULL);
-
-//     return line_read;
-// }
 int main(int argc, char *argv[])
 {
     /* Initialize the monitor. */
