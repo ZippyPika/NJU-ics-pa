@@ -5,10 +5,6 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-int printf(const char *fmt, ...)
-{
-    panic("Not implemented");
-}
 void itoa(int num,char* str,int radix){
     char index[]="0123456789ABCDEF";
     unsigned unum;
@@ -38,6 +34,8 @@ void itoa(int num,char* str,int radix){
         str[i-1+k-j]=temp;
     }
 }
+
+
 int vsprintf(char *out, const char *fmt, va_list ap)
 {
     int i=0;
@@ -94,6 +92,20 @@ int vsprintf(char *out, const char *fmt, va_list ap)
     *out='\0';
     return strlen(out);
     //panic("Not implemented");
+}
+int printf(const char *fmt, ...)
+{
+    char output[128];
+    va_list ap;
+    va_start(ap,fmt);
+    vsprintf(output,fmt,ap);
+    va_end(ap);
+    int i=0;
+    while(output[i]!='\0'){
+        putch(output[i]);
+        i++;
+    }
+    return strlen(output);
 }
 
 int sprintf(char *out, const char *fmt, ...)
