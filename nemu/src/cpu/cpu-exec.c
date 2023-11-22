@@ -50,7 +50,7 @@ static void print_iringbuf(){
             log_write("%s\n", iringbuf[i]);
         }
 #endif    
-        printf("%s\n",iringbuf[i]);
+        //printf("%s\n",iringbuf[i]);
     }
     return ;
 }
