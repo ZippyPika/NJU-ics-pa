@@ -45,7 +45,7 @@ static void mtrace_write(paddr_t addr, int len, word_t data,int flag) {
 #ifdef CONFIG_MTRACE_COND
     if(MTRACE_COND) { log_write("%s\n",mtrace);}
 #endif
-    puts(mtrace);
+    //puts(mtrace);
 }
 #endif
 
