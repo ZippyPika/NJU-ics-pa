@@ -35,8 +35,7 @@
       assert(cond); \
     } \
   } while (0)
-  
-volatile static int dummy;
+
 
 #define panic(format, ...) Assert(0, format, ## __VA_ARGS__)
 
