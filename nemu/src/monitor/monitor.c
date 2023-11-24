@@ -78,6 +78,7 @@ struct node{
     uint32_t addr_begin;
     uint32_t addr_end;
 }elf_functions[128];
+int elf_functions_cnt=0;
 void read_symbols() {
     FILE *file = fopen(elf_file, "rb");
     Assert(file, "Can not open '%s'", elf_file);
@@ -117,16 +118,10 @@ void read_symbols() {
             for (int j = 0; j < shdrs[i].sh_size / sizeof(Elf32_Sym); j++) {
                 // If this is a function
                 if (ELF32_ST_TYPE(syms[j].st_info) == STT_FUNC) {
-                    // The address is in the .text section
-                    //uint32_t addr = syms[j].st_value - shdrs[2].sh_addr;
-                    //printf("%s: %x\n", strtab + syms[j].st_name, addr);
-                    //printf("%s\n", strtab + syms[j].st_name);
-                    //printf("%x\n", syms[j].st_value);
-                    //printf("%x\n", syms[j].st_size);
-                    //printf("%x\n", syms[j].st_shndx);
-                    //printf("%x\n", syms[j].st_info);
-                    //printf("%x\n", syms[j].st_other);
-                    printf("%s\n", strtab + syms[j].st_name);
+                    elf_functions[elf_functions_cnt].addr_begin=syms[j].st_value;
+                    elf_functions[elf_functions_cnt].addr_end=syms[j].st_value+syms[j].st_size;
+                    strcpy(elf_functions[elf_functions_cnt].fun_name,strtab + syms[j].st_name);
+                    elf_functions_cnt++;
                 }
             }
         }
@@ -141,6 +136,10 @@ static void init_ftrace(){
         return;
     }
     read_symbols();
+    for(int i=0;i<elf_functions_cnt;i++){
+        printf("%s %x %x\n",elf_functions[i].fun_name,elf_functions[i].addr_begin,elf_functions[i].addr_end);
+    }
+    return;
 }
 
 static int parse_args(int argc, char *argv[]) {
