@@ -141,7 +141,7 @@ static void init_ftrace(){
     }
     read_symbols();
     for(int i=0;i<elf_functions_cnt;i++){
-        printf("%s %x %x\n",elf_functions[i].fun_name,elf_functions[i].addr_begin+8,elf_functions[i].addr_end);
+        printf("%s %x %x\n",elf_functions[i].fun_name,elf_functions[i].addr_begin,elf_functions[i].addr_end);
     }
     return;
 }
