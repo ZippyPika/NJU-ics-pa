@@ -70,8 +70,7 @@ static long load_img() {
 }
 
 
-
-
+#ifdef CONFIG_FTRACE
 #include <elf.h>
 struct node{
     char fun_name[128];
@@ -114,8 +113,6 @@ void read_symbols() {
             // The symbol names are in a string table
             char *strtab = mem + shdrs[shdrs[i].sh_link].sh_offset;
 
-            // Loop over all symbols
-// Loop over all symbols
             for (int j = 0; j < shdrs[i].sh_size / sizeof(Elf32_Sym); j++) {
                 // If this is a function
                 if (ELF32_ST_TYPE(syms[j].st_info) == STT_FUNC) {
@@ -145,7 +142,7 @@ static void init_ftrace(){
     }
     return;
 }
-
+#endif
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
