@@ -69,6 +69,64 @@ static long load_img() {
   return size;
 }
 
+
+
+
+#include <elf.h>
+void read_symbols() {
+    FILE *file = fopen(elf_file, "rb");
+    Assert(file, "Can not open '%s'", elf_file);
+
+    // Get the size of the file
+    fseek(file, 0, SEEK_END);
+    long size = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    // Read the file into memory
+    char *mem = malloc(size);
+
+    if (fread(mem, 1, size, file) != size) {
+        // handle error
+    }
+
+    // The file starts with an ELF header
+    Elf32_Ehdr *ehdr = (Elf32_Ehdr *)mem;
+
+    // The sections start at ehdr->e_shoff in the file
+    Elf32_Shdr *shdrs = (Elf32_Shdr *)(mem + ehdr->e_shoff);
+
+    // The section names are in a string table at ehdr->e_shstrndx
+    //char *shstrtab = mem + shdrs[ehdr->e_shstrndx].sh_offset;
+
+    // Loop over all sections
+    for (int i = 0; i < ehdr->e_shnum; i++) {
+        // If this section is a symbol table...
+        if (shdrs[i].sh_type == SHT_SYMTAB) {
+            // The symbols are in the section data
+            Elf32_Sym *syms = (Elf32_Sym *)(mem + shdrs[i].sh_offset);
+
+            // The symbol names are in a string table
+            char *strtab = mem + shdrs[shdrs[i].sh_link].sh_offset;
+
+            // Loop over all symbols
+            for (int j = 0; j < shdrs[i].sh_size / sizeof(Elf32_Sym); j++) {
+                // Print the symbol name
+                printf("%s\n", strtab + syms[j].st_name);
+            }
+        }
+    }
+
+    free(mem);
+    fclose(file);
+}
+static void init_ftrace(){
+    if(elf_file==NULL){
+        Log("No elf file is given.");
+        return;
+    }
+    read_symbols();
+}
+
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
@@ -131,6 +189,8 @@ void init_monitor(int argc, char *argv[]) {
   /* Initialize the simple debugger. */
   init_sdb();
 
+    /* Initialize the disassembler. */
+    init_ftrace();
 #ifndef CONFIG_ISA_loongarch32r
   IFDEF(CONFIG_ITRACE, init_disasm(
     MUXDEF(CONFIG_ISA_x86,     "i686",
