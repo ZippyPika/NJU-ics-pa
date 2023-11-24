@@ -115,12 +115,16 @@ void read_symbols() {
             char *strtab = mem + shdrs[shdrs[i].sh_link].sh_offset;
 
             // Loop over all symbols
+// Loop over all symbols
             for (int j = 0; j < shdrs[i].sh_size / sizeof(Elf32_Sym); j++) {
                 // If this is a function
                 if (ELF32_ST_TYPE(syms[j].st_info) == STT_FUNC) {
-                    elf_functions[elf_functions_cnt].addr_begin=syms[j].st_value;
-                    elf_functions[elf_functions_cnt].addr_end=syms[j].st_value+syms[j].st_size;
-                    strcpy(elf_functions[elf_functions_cnt].fun_name,strtab + syms[j].st_name);
+                    // The address range of the function
+                    uint32_t start_addr = shdrs[i].sh_addr + syms[j].st_value;
+                    uint32_t end_addr = start_addr + syms[j].st_size;
+                    elf_functions[elf_functions_cnt].addr_begin = start_addr;
+                    elf_functions[elf_functions_cnt].addr_end = end_addr;
+                    strcpy(elf_functions[elf_functions_cnt].fun_name, strtab + syms[j].st_name);
                     elf_functions_cnt++;
                 }
             }
