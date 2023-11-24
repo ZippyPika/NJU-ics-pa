@@ -73,6 +73,11 @@ static long load_img() {
 
 
 #include <elf.h>
+struct node{
+    char fun_name[128];
+    uint32_t addr_begin;
+    uint32_t addr_end;
+}elf_functions[128];
 void read_symbols() {
     FILE *file = fopen(elf_file, "rb");
     Assert(file, "Can not open '%s'", elf_file);
@@ -110,8 +115,19 @@ void read_symbols() {
 
             // Loop over all symbols
             for (int j = 0; j < shdrs[i].sh_size / sizeof(Elf32_Sym); j++) {
-                // Print the symbol name
-                printf("%s\n", strtab + syms[j].st_name);
+                // If this is a function
+                if (ELF32_ST_TYPE(syms[j].st_info) == STT_FUNC) {
+                    // The address is in the .text section
+                    //uint32_t addr = syms[j].st_value - shdrs[2].sh_addr;
+                    //printf("%s: %x\n", strtab + syms[j].st_name, addr);
+                    //printf("%s\n", strtab + syms[j].st_name);
+                    //printf("%x\n", syms[j].st_value);
+                    //printf("%x\n", syms[j].st_size);
+                    //printf("%x\n", syms[j].st_shndx);
+                    //printf("%x\n", syms[j].st_info);
+                    //printf("%x\n", syms[j].st_other);
+                    printf("%s\n", strtab + syms[j].st_name);
+                }
             }
         }
     }
