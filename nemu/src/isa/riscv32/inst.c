@@ -40,8 +40,8 @@ void ftrace_write(vaddr_t pc, vaddr_t dnpc, int is_jal)
         {
             ftrace_offset-=2;
             for(int j=1;j<=ftrace_offset;j++)   {log_write(" ");printf(" ");}
-            log_write("ret [%s@0x%08x]\n", elf_functions[i].fun_name,dnpc);
-            printf("ret [%s@0x%08x]\n", elf_functions[i].fun_name,dnpc);
+            log_write("ret [%s]\n", elf_functions[i].fun_name);
+            printf("ret [%s]\n", elf_functions[i].fun_name);
         }
     }
     return;
