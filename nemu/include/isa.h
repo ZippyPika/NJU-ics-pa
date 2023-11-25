@@ -58,5 +58,12 @@ void isa_difftest_attach();
 #endif
 
 #ifdef CONFIG_FTRACE
+struct elf_node{
+    char fun_name[128];
+    vaddr_t addr_begin;
+    vaddr_t addr_end;
+};
+extern struct elf_node elf_functions[128];
+extern int elf_functions_cnt;
 
 #endif

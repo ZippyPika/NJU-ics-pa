@@ -72,11 +72,7 @@ static long load_img() {
 
 #ifdef CONFIG_FTRACE
 #include <elf.h>
-struct elf_node{
-    char fun_name[128];
-    vaddr_t addr_begin;
-    vaddr_t addr_end;
-}elf_functions[128];
+struct elf_node elf_functions[128];
 int elf_functions_cnt=0;
 #endif
 

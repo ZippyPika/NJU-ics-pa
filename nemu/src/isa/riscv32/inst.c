@@ -22,12 +22,6 @@
 #define Mr vaddr_read
 #define Mw vaddr_write
 
-struct elf_node{
-    char fun_name[128];
-    vaddr_t addr_begin;
-    vaddr_t addr_end;
-};
-
 void ftrace_write(vaddr_t pc, vaddr_t dnpc, int is_jal)
 {
     // extern struct elf_node elf_functions[128];
