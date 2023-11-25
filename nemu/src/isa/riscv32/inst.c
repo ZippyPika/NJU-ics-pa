@@ -26,22 +26,22 @@ void ftrace_write(vaddr_t pc, vaddr_t dnpc, int is_jal)
 {
     // extern struct elf_node elf_functions[128];
     // extern int elf_function_count;
-    // static int ftrace_offset=0;
-    // for (int i = 0; i < elf_function_count; i++)
-    // {
-    //     if (elf_functions[i].addr_begin == dnpc && dnpc < elf_functions[i].addr_end)
-    //     {
-    //         for(int j=1;j<=ftrace_offset;j++)   log_write(" ");
-    //         log_write("call [%s@0x08%x]", elf_functions[i].fun_name,dnpc);
-    //         ftrace_offset+=2;
-    //     }
-    //     else if(elf_functions[i].addr_begin < dnpc && dnpc < elf_functions[i].addr_end)
-    //     {
-    //         ftrace_offset-=2;
-    //         for(int j=1;j<=ftrace_offset;j++)   log_write(" ");
-    //         log_write("ret [%s@0x08%x]", elf_functions[i].fun_name,dnpc);
-    //     }
-    // }
+    static int ftrace_offset=0;
+    for (int i = 0; i < elf_functions_cnt; i++)
+    {
+        if (elf_functions[i].addr_begin == dnpc && dnpc < elf_functions[i].addr_end)
+        {
+            for(int j=1;j<=ftrace_offset;j++)   log_write(" ");
+            log_write("call [%s@0x08%x]", elf_functions[i].fun_name,dnpc);
+            ftrace_offset+=2;
+        }
+        else if(elf_functions[i].addr_begin < dnpc && dnpc < elf_functions[i].addr_end)
+        {
+            ftrace_offset-=2;
+            for(int j=1;j<=ftrace_offset;j++)   log_write(" ");
+            log_write("ret [%s@0x08%x]", elf_functions[i].fun_name,dnpc);
+        }
+    }
     return;
 }
 enum {
