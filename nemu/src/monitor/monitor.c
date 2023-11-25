@@ -72,12 +72,14 @@ static long load_img() {
 
 #ifdef CONFIG_FTRACE
 #include <elf.h>
-struct node{
+struct elf_node{
     char fun_name[128];
-    uint32_t addr_begin;
-    uint32_t addr_end;
+    vaddr_t addr_begin;
+    vaddr_t addr_end;
 }elf_functions[128];
 int elf_functions_cnt=0;
+#endif
+
 void read_symbols() {
     FILE *file = fopen(elf_file, "rb");
     Assert(file, "Can not open '%s'", elf_file);
@@ -142,7 +144,6 @@ static void init_ftrace(){
     }
     return;
 }
-#endif
 
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {
@@ -207,7 +208,10 @@ void init_monitor(int argc, char *argv[]) {
   init_sdb();
 
     /* Initialize the disassembler. */
+#ifdef CONFIG_FTRACE
     init_ftrace();
+#endif
+
 #ifndef CONFIG_ISA_loongarch32r
   IFDEF(CONFIG_ITRACE, init_disasm(
     MUXDEF(CONFIG_ISA_x86,     "i686",

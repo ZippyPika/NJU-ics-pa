@@ -22,6 +22,34 @@
 #define Mr vaddr_read
 #define Mw vaddr_write
 
+struct elf_node{
+    char fun_name[128];
+    vaddr_t addr_begin;
+    vaddr_t addr_end;
+};
+
+void ftrace_write(vaddr_t pc, vaddr_t dnpc, int is_jal)
+{
+    // extern struct elf_node elf_functions[128];
+    // extern int elf_function_count;
+    // static int ftrace_offset=0;
+    // for (int i = 0; i < elf_function_count; i++)
+    // {
+    //     if (elf_functions[i].addr_begin == dnpc && dnpc < elf_functions[i].addr_end)
+    //     {
+    //         for(int j=1;j<=ftrace_offset;j++)   log_write(" ");
+    //         log_write("call [%s@0x08%x]", elf_functions[i].fun_name,dnpc);
+    //         ftrace_offset+=2;
+    //     }
+    //     else if(elf_functions[i].addr_begin < dnpc && dnpc < elf_functions[i].addr_end)
+    //     {
+    //         ftrace_offset-=2;
+    //         for(int j=1;j<=ftrace_offset;j++)   log_write(" ");
+    //         log_write("ret [%s@0x08%x]", elf_functions[i].fun_name,dnpc);
+    //     }
+    // }
+    return;
+}
 enum {
   TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_R,TYPE_B,
   TYPE_N, // none
@@ -66,8 +94,8 @@ static int decode_exec(Decode *s) {
     INSTPAT("??????? ????? ????? ??? ????? 01101 11", lui, U, R(rd) = imm);
     INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc, U, R(rd) = s->pc + imm);
     //J-type
-    INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal, J, R(rd) = s->snpc; s->dnpc = s->pc + imm);
-    INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr, I, R(rd) = s->snpc; s->dnpc = (src1 + imm) & ~1);
+    INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal, J, R(rd) = s->snpc; s->dnpc = s->pc + imm; IFDEF(CONFIG_FTRACE,ftrace_write(s->pc, s->dnpc,1)));
+    INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr, I, R(rd) = s->snpc; s->dnpc = (src1 + imm) & ~1; IFDEF(CONFIG_FTRACE,ftrace_write(s->pc, s->dnpc,0)));
     //B-type
     INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq, B, if (src1 == src2) s->dnpc = s->pc + imm);
     INSTPAT("??????? ????? ????? 001 ????? 11000 11", bne, B, if (src1 != src2) s->dnpc = s->pc + imm);
