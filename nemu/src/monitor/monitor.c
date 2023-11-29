@@ -74,7 +74,7 @@ static long load_img() {
 #include <elf.h>
 struct elf_node elf_functions[128];
 int elf_functions_cnt=0;
-#endif
+
 
 void read_symbols() {
     FILE *file = fopen(elf_file, "rb");
@@ -129,6 +129,7 @@ void read_symbols() {
     free(mem);
     fclose(file);
 }
+
 static void init_ftrace(){
     if(elf_file==NULL){
         Log("No elf file is given.");
@@ -140,6 +141,7 @@ static void init_ftrace(){
     }
     return;
 }
+#endif
 
 static int parse_args(int argc, char *argv[]) {
   const struct option table[] = {

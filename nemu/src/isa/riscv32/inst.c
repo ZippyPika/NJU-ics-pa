@@ -22,6 +22,7 @@
 #define Mr vaddr_read
 #define Mw vaddr_write
 
+#ifdef CONFIG_FTRACE
 void ftrace_write(vaddr_t pc, vaddr_t dnpc, int is_jal)
 {
     // extern struct elf_node elf_functions[128];
@@ -46,6 +47,7 @@ void ftrace_write(vaddr_t pc, vaddr_t dnpc, int is_jal)
     }
     return;
 }
+#endif
 enum {
   TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_R,TYPE_B,
   TYPE_N, // none
