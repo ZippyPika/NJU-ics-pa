@@ -32,6 +32,7 @@ void invalid_inst(vaddr_t thispc) {
   temp[0] = inst_fetch(&pc, 4);
   temp[1] = inst_fetch(&pc, 4);
     printf("%d\n",cpu.gpr[17]);
+    printf("%d\n",cpu.csr.mepc);
   uint8_t *p = (uint8_t *)temp;
   printf("invalid opcode(PC = " FMT_WORD "):\n"
       "\t%02x %02x %02x %02x %02x %02x %02x %02x ...\n"
