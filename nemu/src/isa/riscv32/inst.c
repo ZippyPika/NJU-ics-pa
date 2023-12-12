@@ -22,6 +22,17 @@
 #define Mr vaddr_read
 #define Mw vaddr_write
 
+static vaddr_t *csr_register(word_t imm){
+    switch(imm){
+        case 0x300: return &(cpu.csr.mstatus);
+        case 0x305: return &(cpu.csr.mtvec);
+        case 0x341: return &(cpu.csr.mepc);
+        case 0x342: return &(cpu.csr.mcause);
+        default: panic("unknown csr_register: imm=0x%08x",imm);
+    }
+}
+#define CSR(imm) (*csr_register(imm))
+
 #ifdef CONFIG_FTRACE
 void ftrace_write(vaddr_t pc, vaddr_t dnpc, int is_jal)
 {
@@ -48,6 +59,7 @@ void ftrace_write(vaddr_t pc, vaddr_t dnpc, int is_jal)
     return;
 }
 #endif
+
 enum {
   TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_R,TYPE_B,
   TYPE_N, // none
@@ -142,7 +154,11 @@ static int decode_exec(Decode *s) {
     INSTPAT("0000001 ????? ????? 110 ????? 01100 11",rem, R, R(rd) = (sword_t)src1 % (sword_t)src2);
     INSTPAT("0000001 ????? ????? 111 ????? 01100 11",remu, R, R(rd) = (word_t)src1 % (word_t)src2);
 
+    //CSR
+    INSTPAT("??????? ????? ????? 001 ????? 11100 11",csrrw, I, R(rd) = CSR(imm); CSR(imm) = src1);
+    INSTPAT("??????? ????? ????? 010 ????? 11100 11",csrrs, I, R(rd) = CSR(imm); CSR(imm) |= src1);
 
+    INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall, N, s->dnpc=isa_raise_intr(R(17), s->pc));
     INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak, N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
     INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv, N, INV(s->pc));
     INSTPAT_END();
