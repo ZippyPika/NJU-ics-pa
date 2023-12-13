@@ -10,11 +10,8 @@ void init_proc(void);
 int main() {
   extern const char logo[];
   printf("%s", logo);
-  printf("Hello World!' from Nanos-lite");
   Log("'Hello World!' from Nanos-lite");
   Log("Build time: %s, %s", __TIME__, __DATE__);
-  //halt(1);
-    printf("Hello World!' from Nanos-lite");
   init_mm();
 
   init_device();
@@ -34,7 +31,5 @@ int main() {
 #ifdef HAS_CTE
   yield();
 #endif
-    printf("Hello World!' from Nanos-lite");
-   // assert(0);
   panic("Should not reach here");
 }
