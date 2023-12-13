@@ -78,6 +78,7 @@ int elf_functions_cnt=0;
 
 void read_symbols() {
     FILE *file = fopen(elf_file, "rb");
+    printf("elf_file:%s\n",elf_file);
     Assert(file, "Can not open '%s'", elf_file);
 
     // Get the size of the file
