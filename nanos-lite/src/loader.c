@@ -19,15 +19,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     Elf_Phdr phdr;
     for (int i = 0; i < ehdr.e_phnum; i++) {
         // 计算 Program Header 的位置并读取它
-        int phoff = ehdr.e_phoff + i * ehdr.e_phentsize;
-        ramdisk_read(&phdr, phoff, sizeof(phdr));
-
-        // 打印 segment 的信息
-        printf("Segment %d: type=%d, offset=0x%x, vaddr=0x%x, paddr=0x%x, filesz=%d, memsz=%d\n",
-               i, phdr.p_type, phdr.p_offset, phdr.p_vaddr, phdr.p_paddr, phdr.p_filesz, phdr.p_memsz);
+        ramdisk_read(&phdr, ehdr.e_phoff + i * ehdr.e_phentsize, sizeof(phdr));
+        if(phdr.p_type==PT_LOAD){
+            memset((void*)phdr.p_vaddr+phdr.p_filesz,0,phdr.p_memsz-phdr.p_filesz);
+        }
     }
-    assert(0);
-    return 0;
+    return ehdr.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
