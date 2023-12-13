@@ -16,12 +16,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     ramdisk_read(&ehdr, 0, sizeof(ehdr));
     assert(memcmp(ehdr.e_ident, ELFMAG, SELFMAG) == 0);
 
-    Elf_Phdr phdr;
+    Elf_Phdr phdr[ehdr.e_phnum];
+    ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * sizeof(Elf_Phdr));
     for (int i = 0; i < ehdr.e_phnum; i++) {
-        // 计算 Program Header 的位置并读取它
-        ramdisk_read(&phdr, ehdr.e_phoff + i * ehdr.e_phentsize, sizeof(phdr));
-        if(phdr.p_type==PT_LOAD){
-            memset((void*)phdr.p_vaddr+phdr.p_filesz,0,phdr.p_memsz-phdr.p_filesz);
+        if(phdr[i].p_type==PT_LOAD){
+            ramdisk_read((void*)phdr[i].p_vaddr,phdr[i].p_offset,phdr[i].p_filesz);
+            memset((void*)phdr[i].p_vaddr+phdr[i].p_filesz,0,phdr[i].p_memsz-phdr[i].p_filesz);
         }
     }
     //assert(0);
