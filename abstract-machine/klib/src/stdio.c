@@ -95,7 +95,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
 }
 int printf(const char *fmt, ...)
 {
-    char output[1024];
+    char output[4096];
     va_list ap;
     va_start(ap,fmt);
     vsprintf(output,fmt,ap);
