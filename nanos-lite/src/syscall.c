@@ -5,6 +5,7 @@ int _sys_write(int fd, void *buf, size_t count){
     if(fd!=1&&fd!=2){
         return -1;
     }
+    printf("write %d\n",count);
     char *str=(char *)buf;
     for(int i=0;i<count;i++){
         putch(str[i]);
@@ -20,7 +21,7 @@ void do_syscall(Context *c) {
     switch (a[0]) {
         case SYS_yield: yield(); c->GPRx = 0; break;
         case SYS_exit: halt(c->GPR2); break;
-        case SYS_write:c->GPRx=_sys_write(a[1],(void*)a[2],a[3]); printf("write %c",((char*)a[2])[0]);break;
+        case SYS_write:c->GPRx=_sys_write(a[1],(void*)a[2],a[3]);break;
         case SYS_brk:c->GPRx=0;break;
         default: panic("Unhandled syscall ID = %d", a[0]);
     }
