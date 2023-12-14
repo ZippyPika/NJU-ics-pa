@@ -68,7 +68,7 @@ int _open(const char *path, int flags, mode_t mode) {
 int _write(int fd, void *buf, size_t count) {
   return _syscall_(SYS_write, fd, (intptr_t)buf, count);
 }
-extern char _end;
+extern char end;
 void *_sbrk(intptr_t increment) {
     static char *myend=&end;
     if(_syscall_(SYS_brk,increment,0,0)==0){
