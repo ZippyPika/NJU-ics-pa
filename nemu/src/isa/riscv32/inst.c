@@ -99,7 +99,7 @@ static int decode_exec(Decode *s) {
   __VA_ARGS__ ; \
 }
 
-#define PC_ECALL(I) ((I==-1) ? (s->snpc) : (s->pc))
+#define PC_ECALL(I) (((I==-1)||(I==1)) ? (s->snpc) : (s->pc))
     INSTPAT_START();
     //U-type
     INSTPAT("??????? ????? ????? ??? ????? 01101 11", lui, U, R(rd) = imm);
