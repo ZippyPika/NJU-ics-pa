@@ -74,6 +74,7 @@ void *_sbrk(intptr_t increment) {
     intptr_t l=brk;
     intptr_t r=brk+increment;
     if(_syscall_(SYS_brk,r,0,0)==0){
+        printf("2");
         brk=r;
         return (void*)l;
     }
