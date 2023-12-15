@@ -19,10 +19,8 @@ extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
 static uintptr_t loader(PCB *pcb, const char *filename) {
     Elf_Ehdr ehdr;
     int fd=fs_open(filename,0,0);
-    printf("%d",fd);
     fs_read(fd,&ehdr,sizeof(ehdr));
     assert(memcmp(ehdr.e_ident, ELFMAG, SELFMAG) == 0);
-    printf("1");
     Elf_Phdr phdr[ehdr.e_phnum];
     fs_lseek(fd,ehdr.e_phoff,0);
     fs_read(fd,phdr,ehdr.e_phnum*sizeof(Elf_Phdr));
