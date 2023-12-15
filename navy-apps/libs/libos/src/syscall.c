@@ -71,6 +71,7 @@ int _write(int fd, void *buf, size_t count) {
 extern char _end;
 static intptr_t brk=(intptr_t) &_end;
 void *_sbrk(intptr_t increment) {
+    assert(0);
     intptr_t l=brk;
     intptr_t r=brk+increment;
     if(_syscall_(SYS_brk,r,0,0)==0){
