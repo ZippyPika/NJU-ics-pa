@@ -5,6 +5,7 @@ int _sys_write(int fd, void *buf, size_t count){
     if(fd!=1&&fd!=2){
         return -1;
     }
+    assert(0);
     //printf("write %d\n",count);
     char *str=(char *)buf;
     for(int i=0;i<count;i++){
