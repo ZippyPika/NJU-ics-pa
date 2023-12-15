@@ -71,12 +71,10 @@ int _write(int fd, void *buf, size_t count) {
 extern char _end;
 static intptr_t brk=(intptr_t) &_end;
 void *_sbrk(intptr_t increment) {
-    panic(" ");
+    assert(0);
     intptr_t l=brk;
     intptr_t r=brk+increment;
-    printf("2");
     if(_syscall_(SYS_brk,r,0,0)==0){
-        printf("2");
         brk=r;
         return (void*)l;
     }
