@@ -53,8 +53,7 @@ size_t fs_read(int fd, void *buf, size_t len){
     }
     //assert(file_table[fd].open_offset+len<=file_table[fd].size);
     if(file_table[fd].open_offset+len>file_table[fd].size){
-        Log("read beyond file size");
-        return -1;
+        len=file_table[fd].size-file_table[fd].open_offset;
     }
     //printf("read %d %d %d\n",fd,file_table[fd].open_offset,len);
     ramdisk_read(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len);
