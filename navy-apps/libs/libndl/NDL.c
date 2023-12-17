@@ -3,15 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
+#include <sys/time.h>
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
-struct timeval {
-  uint64_t tv_sec;
-  uint64_t tv_usec;
-};
 struct timeval tv_start;
 
 
