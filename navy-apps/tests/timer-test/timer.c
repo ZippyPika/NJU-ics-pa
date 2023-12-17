@@ -15,6 +15,6 @@ int main() {
     }
     st=tv;
     //ms += 500;
-    printf("ms = %lld sec=%ld usec=%ld \n", ms,tv.tv_sec,tv.tv_usec);
+    printf("ms = %ld sec=%ld usec=%ld \n", ms,tv.tv_sec,tv.tv_usec);
   }
 }
