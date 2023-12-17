@@ -13,6 +13,6 @@ int main() {
       gettimeofday(&tv, NULL);
     }
     ms += 2000;
-    printf("ms = %ld sec=%ld usec=%ld \n", ms,tv.tv_sec,tv.tv_usec);
+    printf("ms = %d sec=%d usec=%d \n", ms,tv.tv_sec,tv.tv_usec);
   }
 }
