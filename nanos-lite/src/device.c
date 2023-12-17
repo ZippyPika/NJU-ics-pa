@@ -20,8 +20,27 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
     }
     return len;
 }
-
+#define max_buf 128
+char buf1[max_buf];
 size_t events_read(void *buf, size_t offset, size_t len) {
+    AM_INPUT_KEYBRD_T ev;
+    ev=io_read(AM_INPUT_KEYBRD);
+    if(ev.keycode==AM_KEY_NONE){
+        *(char*)buf='\0';
+        return 0;
+    }
+    else{
+        int ret=sprintf(buf1,"%s%d",ev.keydown?"kd":"ku",keyname[ev.keycode]);
+        if(ret>=len){
+            strncpy(buf,buf1,len-1);
+            ((char*)buf)[len-1]='\0';
+            ret=len;
+        }else {
+            strncpy(buf,buf1,ret);
+        }
+        printf("events_read %s\n",buf);
+        return ret;
+    }
   return 0;
 }
 
