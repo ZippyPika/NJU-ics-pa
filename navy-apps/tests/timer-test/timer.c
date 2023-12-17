@@ -5,7 +5,7 @@
 int main() {
     struct timeval init;
     struct timeval now;
-
+    printf("fuck\n");
     assert(gettimeofday(&init, NULL) == 0);
     time_t init_sec = init.tv_sec;
     suseconds_t init_usec = init.tv_usec;
