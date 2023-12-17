@@ -12,7 +12,7 @@ int main() {
     while ((tv.tv_sec * 1000000 + tv.tv_usec ) < ms*1000) {
       gettimeofday(&tv, NULL);
     }
-    ms += 2000;
+    ms += 1001;
     printf("ms = %d sec=%d usec=%d \n", ms,tv.tv_sec,tv.tv_usec);
   }
 }
