@@ -8,7 +8,7 @@ struct timeval {
 };
 
 static uintptr_t sys_gettimeofday(uintptr_t *args) {
-  struct timeval *tv = (void *)args[0];
+  struct timeval *tv = (void *)args[1];
   //struct timezone *tz = (void *)args[1];
   uint64_t us=io_read(AM_TIMER_UPTIME).us;
   if(tv!=NULL){
