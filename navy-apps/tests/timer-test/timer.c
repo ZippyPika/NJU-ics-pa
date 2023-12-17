@@ -9,7 +9,7 @@ int main() {
   __uint64_t ms = 1000;
   printf("ms = %ld sec=%ld usec=%ld \n", ms,tv.tv_sec,tv.tv_usec);
   while (1) {
-    while ((tv.tv_sec * 1000 + tv.tv_usec / 1000) < ms) {
+    while ((tv.tv_sec * 1000000 + tv.tv_usec ) < ms*1000) {
       gettimeofday(&tv, NULL);
     }
     ms += 2000;
