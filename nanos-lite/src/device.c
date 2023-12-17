@@ -39,7 +39,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
         }else {
             strncpy(buf,buf1,ret);
         }
-        printf("events_read %s\n",buf);
+        //printf("events_read %s\n",buf);
         return ret;
     }
   return 0;
