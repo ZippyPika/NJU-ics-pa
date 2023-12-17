@@ -68,7 +68,7 @@ size_t fs_write(int fd, const void *buf, size_t len)
         Log("write to stdin");
         return -1;
     }
-    Finfo *f=file_table+fd;
+    Finfo *f=&file_table[fd];
     if(f->write!=NULL){
         for(int i=0;i<len;i++){
             putch(((char*)buf)[i]);
