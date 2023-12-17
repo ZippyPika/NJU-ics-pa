@@ -12,6 +12,6 @@ int main() {
       gettimeofday(&tv, NULL);
     }
     ms += 500;
-    printf("ms = %lld\n", ms);
+    printf("ms = %lld sec=%ld usec=%ld \n", ms,tv.tv_sec,tv.tv_usec);
   }
 }
