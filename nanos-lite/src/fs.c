@@ -52,9 +52,9 @@ int fs_close(int fd){
     return 0;
 }
 size_t fs_read(int fd, void *buf, size_t len){
-    ReadFn read=file_table[fd].read;
-    if(read!=NULL){
-        return read(buf,file_table[fd].open_offset,len);
+    Finfo *f=&file_table[fd];
+    if(f->read!=NULL){
+        return f->read(buf,file_table[fd].open_offset,len);
     }
     if(fd<=2){
         Log("read from stdin/stdout/stderr");
