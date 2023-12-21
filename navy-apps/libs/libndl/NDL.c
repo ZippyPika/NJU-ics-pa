@@ -50,6 +50,13 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+    int fd=open("/dev/fb",0,0);
+    for(int i=0;i<h &&y+i<convas_h;i++)
+    {
+        lseek(fd,(y+i)*convas_w+x,SEEK_SET);
+        write(fd,pixels+i*w,w*4);
+    }
+    close(fd);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
@@ -73,7 +80,7 @@ static void init_vga(){
     int ret=read(fd,buf,buf_size);
     //assert(p);
     //printf("1111\n");
-    printf("%s\n",buf);
+    //printf("%s\n",buf);
     assert(ret<buf_size);
     close(fd);
     int i=0;

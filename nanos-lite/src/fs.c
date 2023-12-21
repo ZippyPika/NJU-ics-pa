@@ -17,7 +17,7 @@ typedef struct {
   size_t open_offset;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, DEV_EVENTS,DIS_INFO,FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, DEV_EVENTS,DIS_INFO,DIS_VGA,FD_FB};
 static int FD_MAX = 4;
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -36,6 +36,7 @@ static Finfo file_table[] __attribute__((used)) = {
     [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
     [DEV_EVENTS] = {"/dev/events",0,0,events_read,invalid_write},
     [DIS_INFO] = {"/proc/dispinfo",0,0,dispinfo_read,invalid_write},
+    [DIS_VGA] = {"/dev/fb",0,0,invalid_read,NULL},
 #include "files.h"
 };
 
@@ -114,4 +115,8 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   FD_MAX = sizeof(file_table) / sizeof(file_table[0]);
+  AM_GPU_CONFIG_T info=io_read(AM_GPU_CONFIG);
+  int w=info.width;
+    int h=info.height;
+    file_table[DIS_VGA].size=w*h*4;
 }
