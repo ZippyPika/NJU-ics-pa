@@ -71,6 +71,7 @@ static void init_vga(){
     char buf[buf_size];
     int fd=open("/proc/dispinfo",0,0);
     int ret=read(fd,buf,buf_size);
+    printf("%s\n",buf);
     assert(ret<buf_size);
     close(fd);
     int i=0;
