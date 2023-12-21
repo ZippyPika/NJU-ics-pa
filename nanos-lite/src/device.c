@@ -31,6 +31,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
         return 0;
     }
     else{
+        printf("22");
         int ret=sprintf(buf1,"%s %s\n",ev.keydown?"kd":"ku",keyname[ev.keycode]);
         if(ret>=len){
             strncpy(buf,buf1,len-1);
