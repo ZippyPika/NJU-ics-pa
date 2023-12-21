@@ -45,7 +45,7 @@ void NDL_OpenCanvas(int *w, int *h) {
         *w=screen_w;
         *h=screen_h;
     }
-    printf("screen size %d %d\n",*w,*h);
+    printf("screen size %d %d\n",screen_w,screen_h);
     return ;
 }
 
