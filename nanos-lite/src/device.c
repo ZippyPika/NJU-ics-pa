@@ -26,6 +26,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     AM_INPUT_KEYBRD_T ev;
     //printf("11");
     ev=io_read(AM_INPUT_KEYBRD);
+    printf("%d\n",ev.keycode);
     if(ev.keycode==AM_KEY_NONE){
         //printf("22");
         *(char*)buf='\0';
