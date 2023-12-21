@@ -8,6 +8,7 @@ extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 extern size_t events_read(void *buf, size_t offset, size_t len);
 size_t serial_write(const void *buf, size_t offset, size_t len);
 extern size_t dispinfo_read(void *buf, size_t offset, size_t len);
+extern size_t fb_write(const void *buf, size_t offset, size_t len);
 typedef struct {
   char *name;
   size_t size;
@@ -36,7 +37,7 @@ static Finfo file_table[] __attribute__((used)) = {
     [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
     [DEV_EVENTS] = {"/dev/events",0,0,events_read,invalid_write},
     [DIS_INFO] = {"/proc/dispinfo",0,0,dispinfo_read,invalid_write},
-    [DIS_VGA] = {"/dev/fb",480000,0,invalid_read,NULL},
+    [DIS_VGA] = {"/dev/fb",480000,0,invalid_read,fb_write},
 #include "files.h"
 };
 
