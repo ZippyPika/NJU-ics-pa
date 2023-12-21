@@ -32,7 +32,6 @@ size_t events_read(void *buf, size_t offset, size_t len) {
         return 0;
     }
     else{
-        printf("22");
         int ret=sprintf(buf1,"%s %s\n",ev.keydown?"kd":"ku",keyname[ev.keycode]);
         if(ret>=len){
             strncpy(buf,buf1,len-1);
@@ -47,7 +46,20 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+    memset(buf1,0,max_buf);
+    AM_GPU_CONFIG_T info=io_read(AM_GPU_CONFIG);
+    int weight=info.width;
+    int height=info.height;
+
+    int ret=sprintf(buf1,"WIDTH:%d\nHEIGHT:%d\n",weight,height);
+    if(ret>=len){
+        strncpy(buf,buf1,len-1);
+        ((char*)buf)[len-1]='\0';
+        ret=len;
+    }else {
+        strncpy(buf,buf1,ret);
+    }
+    return ret;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
