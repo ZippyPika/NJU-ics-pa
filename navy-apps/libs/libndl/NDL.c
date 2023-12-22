@@ -47,7 +47,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     convas_w=*w;
     convas_h=*h;
-    printf("screen size %d %d\n",*w,*h);
+    printf("screen size %d %d\n",screen_w,screen_h);
     return ;
 }
 
@@ -57,7 +57,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     for(int i=0;i<h && y+i<convas_h;i++)
     {
         lseek(fd,((y+i)*screen_w+x)*4,SEEK_SET);
-        write(fd,pixels+i*w,w*4);
+        write(fd,pixels+i*w,4*w);
     }
     close(fd);
 }
@@ -83,20 +83,20 @@ static void init_vga(){
     int ret=read(fd,buf,buf_size);
     //assert(p);
     //printf("1111\n");
-    //printf("%s\n",buf);
+    printf("%s\n",buf);
     assert(ret<buf_size);
     close(fd);
     int i=0;
     int w=0,h=0;
-    assert(strncmp(buf,"WIDTH:",6)==0);
-    i=6;
+    assert(strncmp(buf,"WIDTH: ",7)==0);
+    i=7;
     while(buf[i]!='\n'){
         w=w*10+buf[i]-'0';
         i++;
     }
 
-    assert(strncmp(buf+i+1,"HEIGHT:",7)==0);
-    i+=8;
+    assert(strncmp(buf+i+1,"HEIGHT: ",8)==0);
+    i+=9;
     while(buf[i]!='\n'){
         h=h*10+buf[i]-'0';
         i++;
