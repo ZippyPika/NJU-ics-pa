@@ -56,7 +56,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     printf("draw rect %d %d %d %d\n",x,y,w,h);
     for(int i=0;i<h && y+i<convas_h;i++)
     {
-        lseek(fd,(y+i)*screen_w+x,SEEK_SET);
+        lseek(fd,((y+i)*screen_w+x)*4,SEEK_SET);
         write(fd,pixels+i*w,w*4);
     }
     close(fd);
