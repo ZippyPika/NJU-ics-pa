@@ -46,7 +46,9 @@
  * Copyright (c) 2010-2012 Ivan Voras <ivoras@freebsd.org>
  * Copyright (c) 2012 Tim Hartrick <tim@edgecast.com>
  *
- * Redistribution and use in source and binary forms, with or without
+ * Redistribution and use in source and 
+ * fixedptc.h is a 32-bit or 64-bit fixed point numeric library.
+ *binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
@@ -127,34 +129,39 @@ typedef	__uint128_t fixedptud;
 
 /* Multiplies a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_muli(fixedpt A, int B) {
-	return 0;
+	return A * B;
 }
 
 /* Divides a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_divi(fixedpt A, int B) {
-	return 0;
+    return A / B;
 }
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return 0;
+    return A*B/FIXEDPT_ONE;
 }
 
 
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
-	return 0;
+	return (fixedpt)(((fixedptd)A << FIXEDPT_FBITS) / (fixedptd)B);
 }
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
-	return 0;
+	return A < 0 ? -A : A;
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-	return 0;
+    if(fixedpt_fracpart(A) == 0) return A;
+    if(A>0) return A & ~FIXEDPT_FMASK;
+    else return -((-A & ~FIXEDPT_FMASK) + FIXEDPT_ONE);
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
+    if(fixedpt_fracpart(A) == 0) return A;
+    if(A>0) return (A & ~FIXEDPT_FMASK) + FIXEDPT_ONE;
+    else return -((-A & ~FIXEDPT_FMASK));
 	return 0;
 }
 
