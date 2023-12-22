@@ -19,6 +19,7 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
+    memset(buf,0,len);
     int ret=read(event_fd,buf,len);
     return ret;
 }
@@ -47,19 +48,19 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     convas_w=*w;
     convas_h=*h;
-    printf("screen size %d %d\n",screen_w,screen_h);
+    //printf("screen size %d %d\n",screen_w,screen_h);
     return ;
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     int fd=open("/dev/fb",0,0);
-    printf("draw rect %d %d %d %d\n",x,y,w,h);
+    //printf("draw rect %d %d %d %d\n",x,y,w,h);
     for(int i=0;i<h && y+i<convas_h;i++)
     {
         lseek(fd,((y+i)*screen_w+x)*4,SEEK_SET);
         write(fd,pixels+i*w,4*w);
     }
-    close(fd);
+    //close(fd);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
