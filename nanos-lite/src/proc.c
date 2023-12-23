@@ -23,7 +23,7 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-    naive_uload(NULL,"/app/bird");
+    naive_uload(NULL,"/bin/nterm");
   // load program here
 
 }
