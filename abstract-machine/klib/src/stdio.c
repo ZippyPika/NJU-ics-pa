@@ -93,7 +93,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
     return strlen(out);
     //panic("Not implemented");
 }
-char output[10000];
+char output[100000];
 int printf(const char *fmt, ...)
 {
     
