@@ -15,8 +15,8 @@ int SDL_PushEvent(SDL_Event *ev) {
 
 
 
-const int buf_size=32; //TODO
-char buf[32];
+const int buf_size=1024; //TODO
+char buf[1024];
 int SDL_WaitEvent(SDL_Event *event) {
     while(!NDL_PollEvent(buf,buf_size));
     char *p=buf;
