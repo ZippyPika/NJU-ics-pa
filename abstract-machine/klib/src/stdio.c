@@ -93,9 +93,10 @@ int vsprintf(char *out, const char *fmt, va_list ap)
     return strlen(out);
     //panic("Not implemented");
 }
+char output[10000];
 int printf(const char *fmt, ...)
 {
-    char output[4096];
+    
     va_list ap;
     va_start(ap,fmt);
     vsprintf(output,fmt,ap);
