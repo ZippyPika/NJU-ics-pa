@@ -67,7 +67,7 @@ int SDL_PollEvent(SDL_Event *ev) {
                 break;
             }
         }
-        keystate[ev->key.keysym.sym] = ev->key.type == SDL_KEYD
+        keystate[ev->key.keysym.sym] = ev->key.type == SDL_KEYDOWN;
         return 1;
     }
     return 0;
