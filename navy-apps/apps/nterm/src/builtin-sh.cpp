@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 char handle_key(SDL_Event *ev);
+void extern_app_run(const char *app_path);
 
 static void sh_printf(const char *format, ...) {
   static char buf[256] = {};
@@ -23,6 +24,8 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
+    extern_app_run(cmd);
+    return;
 }
 
 void builtin_sh_run() {

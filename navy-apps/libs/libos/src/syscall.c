@@ -61,7 +61,7 @@ int _execve(const char *fname, char * const argv[], char *const envp[]) {
 
 void _exit(int status) {
 //  _syscall_(SYS_exit, status, 0, 0);
-    _execve("/bin/menu",NULL,NULL);
+    _execve("/bin/nterm",NULL,NULL);
   while (1);
 }
 
