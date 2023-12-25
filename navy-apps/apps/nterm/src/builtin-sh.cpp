@@ -25,11 +25,11 @@ static void sh_prompt() {
 
 
 static void sh_handle_cmd(const char *cmd) {
-    printf("cmd: %s", cmd);
+    printf("cmd: %s\n", cmd);
     char *file_buf = (char *)malloc((strlen(cmd) + 1) * sizeof(char));
     memset(file_buf, 0, strlen(cmd) + 1);
     file_buf=strncpy(file_buf,cmd,strlen(cmd)-1);
-    printf("cmd: %s", file_buf);
+    printf("1",);
     execvp(file_buf, NULL);
     return;
 }
