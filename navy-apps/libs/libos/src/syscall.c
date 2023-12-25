@@ -55,8 +55,13 @@ intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   return ret;
 }
 
+int _execve(const char *fname, char * const argv[], char *const envp[]) {
+    return _syscall_(SYS_execve, (intptr_t)fname, (intptr_t)argv, (intptr_t)envp);
+}
+
 void _exit(int status) {
-  _syscall_(SYS_exit, status, 0, 0);
+//  _syscall_(SYS_exit, status, 0, 0);
+    _execve("/bin/menu",NULL,NULL);
   while (1);
 }
 
@@ -98,10 +103,7 @@ int _gettimeofday(struct timeval *tv, struct timezone *tz) {
   return 0;
 }
 
-int _execve(const char *fname, char * const argv[], char *const envp[]) {
-  _exit(SYS_execve);
-  return 0;
-}
+
 
 // Syscalls below are not used in Nanos-lite.
 // But to pass linking, they are defined as dummy functions.

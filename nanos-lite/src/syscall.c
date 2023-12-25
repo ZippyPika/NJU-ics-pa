@@ -1,12 +1,13 @@
 #include <common.h>
 #include "syscall.h"
+#include <proc.h>
 #define time_t uint64_t
 #define suseconds_t uint64_t
 struct timeval {
     time_t      tv_sec;     /* seconds */
     suseconds_t tv_usec;    /* microseconds */
 };
-
+extern void naive_uload(PCB *pcb, const char *filename);
 static uintptr_t sys_gettimeofday(uintptr_t *args) {
   struct timeval *tv = (void *)args[1];
   //struct timezone *tz = (void *)args[1];
@@ -33,6 +34,7 @@ void do_syscall(Context *c) {
         case SYS_close:c->GPRx=fs_close(a[1]);break;
         case SYS_lseek:c->GPRx=fs_lseek(a[1],a[2],a[3]);break;
         case SYS_gettimeofday:c->GPRx=sys_gettimeofday(a);break;
+        case SYS_execve: naive_uload(NULL,(char*)a[1]);c->GPRx=-1;break;
         default: panic("Unhandled syscall ID = %d", a[0]);
     }
 }
