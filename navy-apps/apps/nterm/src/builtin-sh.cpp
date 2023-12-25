@@ -24,7 +24,7 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-    extern_app_run(cmd);
+    execvp(cmd, NULL);
     return;
 }
 
