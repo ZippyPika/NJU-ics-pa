@@ -25,7 +25,7 @@ static void sh_prompt() {
 
 
 static void sh_handle_cmd(const char *cmd) {
-    //printf("len: %d\n", strlen(cmd));
+    printf("len: %d\n %d", strlen(cmd),cmd[0]);
     if(cmd==NULL) return;
     printf("cmd: %s\n", cmd);
     char *file_buf = (char *)malloc((strlen(cmd) + 1) * sizeof(char));
