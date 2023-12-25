@@ -23,7 +23,7 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-    naive_uload(NULL,"/bin/pal");
+    naive_uload(NULL,"/bin/bird");
   // load program here
 
 }
