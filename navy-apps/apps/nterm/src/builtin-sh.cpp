@@ -28,6 +28,7 @@ static void sh_handle_cmd(const char *cmd) {
     printf("cmd: %s", cmd);
     char *file_buf = (char *)malloc(strlen(cmd));
     file_buf=strncpy(file_buf,cmd,strlen(cmd)-1);
+    printf("cmd: %s", file_buf);
     execvp(file_buf, NULL);
     return;
 }
