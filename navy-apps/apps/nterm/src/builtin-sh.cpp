@@ -23,9 +23,12 @@ static void sh_prompt() {
   sh_printf("sh> ");
 }
 
+#define buf_size 256//TODO
+static char file_buf[buf_size] = {};
 static void sh_handle_cmd(const char *cmd) {
-    printf("cmd: %s\n", cmd);
-    execvp(cmd, NULL);
+    printf("cmd: %s", cmd);
+    file_buf=strncpy(file_buf,cmd,strlen(cmd)-1);
+    execvp(file_buf, NULL);
     return;
 }
 
